@@ -1,0 +1,205 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<style>
+    /* ===== DASHBOARD BASE ===== */
+    .page {
+        min-height: 100vh;
+        color: #1e1b2e;
+        padding: 2rem;
+    }
+
+    /* HEADER */
+    .page-header h1 {
+        font-size: 26px;
+        margin-bottom: 5px;
+        font-weight: 700
+    }
+
+    .page-header p {
+        color: #6b7280;
+        margin-bottom: 20px;
+        font-size: 0.9rem;
+    }
+
+    /* ===== STAT CARDS ===== */
+    .stat-card {
+        background: white;
+        height: 60px;
+        min-height: 140px;
+        padding: 18px;
+        border-radius: 14px;
+        border: 1px solid #ece9f5;
+        transition: 0.2s;
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+        font-family: 'Spline Sans Mono', monospace;
+    }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(124, 58, 237, 0.1);
+           
+        }
+
+        .stat-card p {
+            font-size: 12px;
+            margin-bottom: 5px;
+            
+            color: #5C524A;
+            font-weight: 600;
+        }
+
+        .stat-card h3 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin: 0;
+            color: #000000;
+
+           
+        }
+
+    /* ===== PANELS ===== */
+    .card-dark {
+        background: #FFFEFC;
+        border-radius: 14px;
+        padding: 20px;
+        border: 1px solid #ece9f5;
+    }
+
+        .card-dark p {
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #eee;
+            font-family: 'Spline Sans Mono', monospace;
+            color: #9c8e82;
+        }
+
+    /* ===== TABLE ===== */
+    .table {
+        background: transparent !important;
+        color: #1e1b2e;
+        border-bottom: 1px solid rgba(92, 82, 74, 0.6)
+    }
+
+        .table th {
+            font-size: 12px;
+            color: rgba(92, 82, 74, 0.8);
+            font-family: 'Spline Sans Mono', monospace;
+        }
+
+        .table td {
+            font-size: 14px;
+            border-top: 1px solid #eee;
+        }
+
+    /* ===== BADGE ===== */
+    .badge {
+        background: #ede9fe !important;
+        color: #5b21b6 !important;
+        font-size: 11px;
+    }
+</style>
+
+<div class="page">
+
+    <!-- HEADER -->
+    <div class="page-header">
+        <h1>Dashboard</h1>
+        <p>Overview of Lost & Found system activity</p>
+    </div>
+
+    <!-- STATS -->
+    <div class="row g-4">
+
+        <div class="col-md-3">
+            <div class="stat-card" style="background-color: #FAF3CC">
+                <p>TOTAL ITEMS</p>
+                <h3>8</h3>
+                @* <h3>@ViewBag.TotalItems</h3> *@
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="stat-card" style="background-color: #E8ECE3">
+                <p>PENDING</p>
+                <h3>1</h3>
+                @* <h3>@ViewBag.PendingClaims</h3> *@
+                
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="stat-card" style="background-color: #F0EBE2;">
+                <p>CLAIMED</p>
+                <h3>7</h3>
+                @* <h3>@ViewBag.ClaimedItems</h3> *@
+                
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="stat-card" style="background-color: #E4E7EA;">
+                <p>UNCLAIMED</p>
+                <h3>1</h3>
+                @* <h3>@ViewBag.TotalStations</h3> *@
+                
+            </div>
+        </div>
+
+    </div>
+
+    <!-- RECENT ITEMS + CLAIMS -->
+    <div class="row mt-4">
+
+        <!-- RECENT ITEMS -->
+        <div class="col-md-6">
+            <div class="card-dark">
+                <p>LOST VS CLAIMED - MONTHLY</p>
+
+            
+            </div>
+        </div>
+
+        <!-- RECENT CLAIMS -->
+        <div class="col-md-6">
+            <div class="card-dark">
+                <p>ITEMS BY CATEGORY</p>
+
+                
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card-dark mt-4">
+        <h6 class="fw-bold" style="font-family:'Plus Jakarta Sans', sans-serif; color: #1e1e1e;">Recent Items</h6>
+
+        <table class="table table-borderless mt-3">
+            <thead>
+                <tr>
+                    <th>ITEM</th>
+                    <th>CATEGORY</th>
+                    <th>LOCATION</th>
+                    <th>DATE FOUND</th>
+                    <th>STATUS</th>
+                </tr>
+            </thead>
+            <tbody>
+                @* @foreach (var item in ViewBag.RecentItems)
+                        {
+                            <tr>
+                                <td>@item.Name</td>
+                                <td>@item.Station</td>
+                                <td>@item.DateFound</td>
+                            </tr>
+                        } *@
+
+
+            </tbody>
+        </table>
+    </div>
+
+</div>

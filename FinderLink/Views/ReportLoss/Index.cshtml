@@ -1,0 +1,271 @@
+﻿<style>
+    .card-dark {
+        background: #FFFEFC;
+        border-radius: 16px;
+        padding: 2.2rem;
+        border: 1px solid #ece9f5;
+    }
+
+    .card-dark p {
+        font-size: 0.8rem;
+        font-weight: 500;
+        margin-bottom: 10px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #eee;
+        font-family: 'Spline Sans Mono', monospace;
+        color: #9c8e82;
+    }
+
+    form {
+        gap: 1.8rem;
+    }
+
+    .input-div {
+        display: flex;
+        flex-direction: column;
+    }
+
+    label {
+        font-size: 11px;
+        font-weight: 600;
+        color: #7a6f66;
+        margin-bottom: 4px;
+    }
+
+        label span {
+            color: #e5484d;
+        }
+
+    input, select, textarea {
+        border-radius: 10px;
+        border: 1px solid #e5e1dc;
+        padding: 0.6rem 0.8rem;
+        font-size: 14px;
+        outline: none;
+        transition: 0.2s ease;
+    }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #e8d84f;
+            box-shadow: 0 0 0 2px rgba(232, 216, 79, 0.2);
+        }
+
+        input::placeholder {
+            color: #b0a79f;
+        }
+
+    /* FILE UPLOAD */
+    .file-upload {
+        border: 1px dashed #d6d1cb;
+        border-radius: 12px;
+        padding: 1.2rem;
+        text-align: center;
+        font-size: 13px;
+        color: #9c8e82;
+        cursor: pointer;
+        position: relative;
+        transition: 0.2s;
+    }
+
+        .file-upload:hover {
+            border-color: #e8d84f;
+            background: rgba(232, 216, 79, 0.08);
+        }
+
+        .file-upload input {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+    /* BUTTONS */
+
+    button{
+        font-size: 12px;
+    }
+
+    .btn-clear {
+        background: transparent;
+        color: #5C524A;
+        border-radius: 20px;
+        padding: 0.5rem 1rem;
+        font-weight: 600;
+        border: none;
+    }
+
+    .btn-submit {
+        background: #2a2a2a;
+        color: white;
+        border-radius: 20px;
+        padding: 0.5rem 1rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        border: none;
+    }
+
+        .btn-submit:hover {
+            background: #1f1f1f;
+        }
+
+    /* RIGHT PANEL CARD */
+    .recent-card {
+        background: #FFFEFC;
+        border: 1px solid #ece9f5;
+        border-radius: 16px;
+        padding: 1.5rem;
+        height: 100%;
+    }
+
+    /* TITLE */
+    .recent-title {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        color: #5C524A;
+        margin-bottom: 1rem;
+       
+    }
+
+    /* LIST */
+    .recent-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        max-height: 400px;
+        overflow-y: auto;
+    }
+
+    /* ITEM */
+    .recent-item {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        padding: 8px;
+        border-radius: 10px;
+        transition: 0.2s;
+        cursor: pointer;
+        border: 1px solid rgba(92, 82, 74, 0.33);
+    }
+
+        .recent-item:hover {
+            background: rgba(0,0,0,0.03);
+        }
+
+    /* IMAGE */
+    .recent-img {
+        width: 42px;
+        height: 42px;
+        border-radius: 10px;
+        background: #f3f3f3;
+        flex-shrink: 0;
+    }
+
+    /* TEXT */
+    .recent-name {
+        font-size: 13px;
+        font-weight: 600;
+        color: #1e1b2e;
+    }
+
+    .recent-desc {
+        font-size: 11px;
+        color: #9c8e82;
+    }
+</style>
+
+<div class="page">
+    <div class="page-header">
+        <h1>Report Loss</h1>
+        <p>Log a newly found item into the system</p>
+    </div>
+
+    <div class="row gx-6">
+        <div class="card-dark col-8">
+            <div class="mb-4">
+                <h6 class="fw-bold">New Item Report</h6>
+            </div>
+
+            <form class="d-flex flex-column">
+
+                <div class="d-flex gap-4">
+                    <div class="input-div flex-grow-1">
+                        <label>ITEM NAME <span>*</span></label>
+                        <input placeholder="Enter item name" />
+                    </div>
+
+                    <div class="input-div flex-grow-1">
+                        <label>ITEM CATEGORY <span>*</span></label>
+                        <select>
+                            <option>Select Category</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="input-div">
+                    <label>ITEM DESCRIPTION <span>*</span></label>
+                    <textarea rows="4" placeholder="Describe the item..."></textarea>
+                </div>
+
+                <div class="d-flex gap-4">
+                    <div class="input-div flex-grow-1">
+                        <label>LOCATION FOUND <span>*</span></label>
+                        <select>
+                            <option>Select Location</option>
+                        </select>
+                    </div>
+
+                    <div class="input-div flex-grow-1">
+                        <label>DATE FOUND <span>*</span></label>
+                        <input type="date" />
+                    </div>
+                </div>
+
+                <div class="d-flex gap-4">
+                    <div class="input-div flex-grow-1">
+                        <label>FOUND BY <span>*</span></label>
+                        <input placeholder="Enter name" />
+                    </div>
+
+                    <div class="input-div flex-grow-1">
+                        <label>CONTACT <span>*</span></label>
+                        <input type="text" placeholder="Enter contact info" />
+                    </div>
+                </div>
+
+                <div class="input-div">
+                    <label>ITEM PHOTO <span>*</span></label>
+                    <div class="file-upload">
+                        <i class="bi bi-upload"></i><br />
+                        <span>Click to upload or drag image</span>
+                        <input type="file" />
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-end gap-3 mt-3">
+                    <button class="btn-clear">Clear Form</button>
+                    <button class="btn-submit">
+                        <i class="bi bi-check-lg"></i> Submit Report
+                    </button>
+                </div>
+
+            </form>
+        </div>
+
+        <div class="col-4">
+            <p class="fw-semibold" style="font-size: 0.8rem;font-family: 'Spline Sans Mono', monospace; color: #5C524A;">RECENT ITEM REPORTS</p>
+
+            <div class="recent-list">
+                <div class="recent-item">
+                    <div class="recent-img"></div>
+                    <div class="recent-info">
+                        <div class="recent-name">iPhone 15 Pro Max</div>
+                        <div class="recent-desc">Black, slightly scratched</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

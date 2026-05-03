@@ -1,0 +1,379 @@
+﻿@model LoginViewModel
+
+@{
+    ViewBag.Title = "Admin Login";
+    ViewData["HideSidebar"] = true;
+}
+
+<style>
+    @@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+    :root {
+        --bg:           #F5F0E8;
+        --surface:      #FFFEFC;
+        --surface-2:    #2e1550;
+        --purple:       #6d3fc0;
+        --purple-light: #8b5cf6;
+        --border:       #3d2060;
+        --text:         #f0ebff;
+        --text-muted:   #9d86c4;
+        --error:        #f87171;
+        --error-bg:     #2d1212;
+        --error-border: #5c2020;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+        height: 100%;
+        /* font-family: 'Inter', sans-serif; */
+        background-color: var(--bg);
+        color: #2a2a2a
+    }
+
+    body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        padding: 1.5rem;
+    }
+
+    /* ── Layout ── */
+    .login-wrapper {
+        width: 100%;
+        max-width: 400px;
+    }
+
+    /* ── Brand ── */
+    .brand {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .brand-icon-wrap {
+        width: 52px;
+        height: 52px;
+        background-color: #2a2a2a;
+        border-radius: 12px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 0.9rem;
+    }
+
+    .brand-icon-wrap i {
+        font-size: 1.4rem;
+            color: #e8d84f;
+    }
+
+    .brand-title {
+        font-size: 1.5rem;
+        font-weight: 800;
+        letter-spacing: -0.01em;
+    }
+
+    .brand-subtitle {
+        font-size: 0.75rem;
+        color:#5C524A;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-top: 0.25rem;
+    }
+
+    /* ── Card ── */
+    .login-card {
+        background-color: var(--surface);
+        border-radius: 12px;
+        padding: 2rem 2.2rem;
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    }
+
+    .card-heading {
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-bottom: 0.2rem;
+        color: black
+    }
+
+    .card-sub {
+        font-size: 0.8rem;
+        margin-bottom: 1.5rem;
+        color: black;
+    }
+
+    /* ── Error ── */
+    .alert-login-error {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.5rem;
+        background-color: var(--error-bg);
+        border: 1px solid var(--error-border);
+        border-radius: 8px;
+        padding: 0.65rem 0.9rem;
+        color: var(--error);
+        font-size: 0.8rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .alert-login-error i { margin-top: 2px; flex-shrink: 0; }
+
+    .field-validation-error {
+        font-size: 0.75rem;
+        color: var(--error);
+        display: block;
+        margin-top: 0.3rem;
+    }
+
+    /* ── Form ── */
+    .form-label {
+        display: block;
+        font-size: 0.75rem;
+        font-weight: 600;
+        margin-bottom: 0.4rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+    }
+
+    .input-group-custom {
+        position: relative;
+        margin-bottom: 1rem;
+    }
+
+    .input-icon {
+        position: absolute;
+        left: 11px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        pointer-events: none;
+        z-index: 2;
+    }
+
+    input{
+        height: 40px;
+        width: 100%;
+        border-radius: 10px;
+    }
+
+    .form-control-custom {
+        display: block;
+        width: 100%;
+        background-color: var(--surface-2);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        color: var(--text);
+        font-family: 'Inter', sans-serif;
+        font-size: 0.875rem;
+        padding: 0.65rem 1rem 0.65rem 2.4rem;
+        outline: none;
+        transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .form-control-custom::placeholder { color: var(--text-muted); opacity: 0.5; }
+
+    .form-control-custom:focus {
+        border-color: var(--purple-light);
+        box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+    }
+
+    .toggle-password {
+        position: absolute;
+        right: 11px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 0.9rem;
+        padding: 0;
+        z-index: 3;
+        line-height: 1;
+    }
+
+
+    /* ── Options row ── */
+    .options-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1.25rem;
+    }
+
+    .remember-check {
+        display: flex;
+        align-items: center;
+        gap: 0.45rem;
+        cursor: pointer;
+    }
+
+    .remember-check input[type="checkbox"] {
+        width: 14px;
+        height: 14px;
+        accent-color: var(--purple-light);
+        cursor: pointer;
+    }
+
+    .remember-check span {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+    }
+
+    .forgot-link {
+        font-size: 0.8rem;
+        color: var(--purple-light);
+        text-decoration: none;
+    }
+
+    .forgot-link:hover { text-decoration: underline; }
+
+    /* ── Button ── */
+    .btn-login {
+        width: 100%;
+        background-color: #1E1E1E;
+        color: #fff;
+        font-family: 'Inter', sans-serif;
+        font-weight: 600;
+        font-size: 0.875rem;
+        border: none;
+        border-radius: 20px;
+        padding: 0.7rem 1rem;
+        cursor: pointer;
+        transition: background-color 0.15s;
+    }
+
+    .btn-login:hover { background-color: #2a2a2a; }
+
+    /* ── Divider ── */
+    .divider {
+        border: none;
+        border-top: 1px solid var(--border);
+        margin: 1.4rem 0;
+    }
+
+    /* ── Footer ── */
+    .login-footer {
+        text-align: center;
+        margin-top: 1.4rem;
+        font-size: 0.72rem;
+        opacity: 0.5;
+            color: #5C524A;
+
+        font-family: 'Spline Sans Mono', monospace
+    }
+
+    .admin-icon{
+        width: 35px;
+        height: 35px;
+        background-color: #2a2a2a;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        color: white
+    }
+</style>
+
+<div class="d-flex flex-row justify-content-center align-items-center w-100">
+    <div class="login-wrapper">
+
+    <div class="brand">
+        <div class="brand-icon-wrap">
+            <i class="bi bi-geo-alt"></i>
+        </div>
+        <div class="brand-title">FinderLink</div>
+        <div class="brand-subtitle">Administration Portal</div>
+    </div>
+
+    <div class="login-card">
+        <div class="d-flex flex-row gap-2 align-items-center">
+            <div class="admin-icon">
+                <i class="bi bi-lock"></i>
+            </div>
+            <div class="card-heading">Admin Portal</div>
+        </div>
+
+        <div class="card-sub mt-2">Please enter your credentials to log in to your account</div>
+
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="alert-login-error">
+                <i class="bi bi-exclamation-circle-fill"></i>
+                @Html.ValidationSummary(true, "", new { @class = "mb-0" })
+            </div>
+        }
+
+        @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { id = "loginForm" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="mb-3">
+                <label class="form-label">Username</label>
+               <input />
+                @Html.ValidationMessageFor(m => m.Username, "", new { @class = "field-validation-error" })
+            </div>
+
+            <div class="mb-1">
+                <label class="form-label">Password</label>
+                <div class="input-group-custom" style="position:relative;">
+                    <input />
+                    <button type="button" class="toggle-password" id="togglePassword" aria-label="Toggle password visibility">
+                        <i class="bi bi-eye" id="eyeIcon"></i>
+                    </button>
+                </div>
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "field-validation-error" })
+            </div>
+
+            @* <div class="options-row">
+                <label class="remember-check">
+                    @Html.CheckBoxFor(m => m.RememberMe)
+                    <span>Remember me</span>
+                </label>
+                <a href="@Url.Action("ForgotPassword", "Account")" class="forgot-link">Forgot password?</a>
+            </div> *@
+
+            <button type="submit" class="btn-login mt-3" id="loginBtn">
+                Sign In
+            </button>
+        }
+
+        <hr class="divider" />
+
+        <div style="text-align:center; font-size:0.75rem; color:#5C524A;
+
+        font-family: 'Spline Sans Mono', monospace;">
+            <i class="bi bi-shield-lock me-1"></i> Authorized personnel only
+        </div>
+    </div>
+
+    <div class="login-footer">
+        &copy; @DateTime.Now.Year Lost &amp; Found Management System
+    </div>
+
+</div>
+
+</div>
+
+
+@section Scripts {
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var toggle = document.getElementById("togglePassword");
+        var pwd    = document.getElementById("Password");
+        var icon   = document.getElementById("eyeIcon");
+
+        if (toggle) {
+            toggle.addEventListener("click", function () {
+                if (pwd.type === "password") {
+                    pwd.type = "text";
+                    icon.className = "bi bi-eye-slash";
+                } else {
+                    pwd.type = "password";
+                    icon.className = "bi bi-eye";
+                }
+            });
+        }
+    });
+</script>
+}

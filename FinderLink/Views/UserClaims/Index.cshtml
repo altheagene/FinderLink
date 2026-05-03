@@ -1,0 +1,325 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<style>
+    .card-dark {
+        background: #FFFEFC;
+        border-radius: 14px;
+        padding: 20px;
+        border: 1px solid #ece9f5;
+    }
+
+    .card-dark p {
+        font-size: 0.8rem;
+        font-weight: 500;
+        margin-bottom: 10px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #eee;
+        font-family: 'Spline Sans Mono', monospace;
+        color: #9c8e82;
+    }
+
+    .stat-card {
+        background: white;
+        height: 60px;
+        min-height: 140px;
+        padding: 18px;
+        border-radius: 14px;
+        border: 1px solid #ece9f5;
+        transition: 0.2s;
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+        font-family: 'Spline Sans Mono', monospace;
+    }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(124, 58, 237, 0.1);
+        }
+
+        .stat-card p {
+            font-size: 12px;
+            margin-bottom: 5px;
+            color: #5C524A;
+            opacity: 70%;
+            font-weight: 600;
+        }
+
+        .stat-card h3 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin: 0;
+            color: #000000;
+        }
+
+        .icon-wrapper{
+            padding: 0.7rem 0.9rem;
+            border-radius: 10px
+        }
+
+        .icon-wrapper i{
+            font-size: 1.2rem;
+        }
+
+    /* FILTER GROUP */
+    .filter-group {
+        display: flex;
+        gap: 8px;
+    }
+
+    /* BUTTON */
+    .filter-btn {
+        font-size: 12px;
+        padding: 6px 14px;
+        border-radius: 20px;
+        border: 1px solid #e5e1dc;
+        background: white;
+        color: #5C524A;
+        font-weight: 600;
+        transition: 0.2s;
+    }
+
+        /* HOVER */
+        .filter-btn:hover {
+            background: rgba(0,0,0,0.04);
+        }
+
+        /* ACTIVE STATE */
+        .filter-btn.active {
+            background: #F0EBE2;
+            color: #1e1e1e;
+            border-color: #F0EBE2;
+        }
+
+    /* CARD */
+    .claim-card {
+        background: #fff;
+        border: 1px solid #ece9f5;
+        border-radius: 14px;
+        padding: 16px;
+        display: flex;
+        gap: 14px;
+        transition: 0.2s;
+    }
+
+        .claim-card:hover {
+            transform: translateY(-2px);
+        }
+
+    /* IMAGE */
+    .claim-thumb {
+        width: 70px;
+        height: 70px;
+        border-radius: 10px;
+        object-fit: cover;
+        background: #f0ebe2;
+    }
+
+    /* BODY */
+    .claim-body {
+        flex: 1;
+    }
+
+    /* TITLE */
+    .claim-title {
+        font-size: 14px;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    /* META */
+    .claim-meta {
+        font-size: 12px;
+        color: #5C524A;
+        margin: 6px 0 10px;
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+        .claim-meta i {
+            margin-right: 4px;
+        }
+
+    /* PROOF */
+    .proof-box {
+        background: #f9f5ef;
+        border-radius: 8px;
+        padding: 10px;
+        font-size: 12px;
+        margin-bottom: 10px;
+    }
+
+    /* BUTTONS */
+    .claim-actions {
+        display: flex;
+        gap: 8px;
+    }
+
+    .btn-approve {
+        background: #e4f5d4;
+        color: #3a6e10;
+    }
+
+    .btn-reject {
+        background: #fde8f1;
+        color: #c85a88;
+    }
+
+    .claim-actions button {
+        border: none;
+        border-radius: 20px;
+        padding: 6px 12px;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    /* STATUS */
+    .badge {
+        font-size: 11px;
+        font-weight: 700;
+        padding: 4px 10px;
+        border-radius: 20px;
+    }
+
+        .badge.pending {
+            background: #fdf9c4;
+            color: #b8a900;
+        }
+
+        .badge.verified {
+            background: #dff0c8;
+            color: #4a7a1e;
+        }
+
+        .badge.rejected {
+            background: #fde8f1;
+            color: #c85a88;
+        }
+
+    /* LIST */
+    .claim-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 16px;
+    }
+</style>
+
+<div class="page">
+    <div class="page-header">
+        <h1>User Claims</h1>
+        <p>
+            Review and manage ownership claims
+        </p>
+    </div>
+
+    <div class="row g-4">
+
+        <div class="col-md-4">
+            <div class="stat-card" style="background-color: white">
+                <p>PENDING</p>
+                <div class="d-flex align-items-center gap-3">
+                    <div class="icon-wrapper" style="background-color: #FDF9C4">
+                        <i class="bi bi-clock" style="color: #b8a900;"></i>
+                    </div>
+                    <h3>8</h3>
+                </div>
+               
+                
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="stat-card" style="background-color: white">
+                <p>VERIFIED</p>
+                <div class="d-flex align-items-center gap-3">
+                    <div class="icon-wrapper" style="background-color: #DFF0C8">
+                        <i class="bi bi-check-circle" style="color: #4a7a1e"></i>
+                    </div>
+                    <h3>0</h3>
+                </div>
+                 
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="stat-card" style="background-color: white;">
+                <p>REJECTED</p>
+                <div class="d-flex align-items-center gap-3">
+                    <div class="icon-wrapper" style="background-color: #FDE8F1;">
+                        <i class="bi bi-x-circle" style="color: #c85a88"></i>
+                    </div>
+                    <h3>1</h3>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="card-dark mt-5">
+        <div class="position-relative mr-4" style="width: 100%;">
+            <i class="bi bi-search position-absolute" style="top: 0.4rem; left: 0.7rem"></i>
+            <input placeholder="Search items..." style="width: 100%; border-radius: 20px; padding-left: 2.3rem;" />
+        </div>
+
+        <div class="d-flex align-items-center justify-content-between mt-3 flex-wrap gap-2">
+
+            <!-- FILTERS -->
+            <div class="filter-group">
+                <button class="filter-btn active">All Claims</button>
+                <button class="filter-btn">Pending</button>
+                <button class="filter-btn">Verified</button>
+                <button class="filter-btn">Rejected</button>
+            </div>
+
+        </div>
+
+        <div class="claim-list">
+
+            <!--REPLACE WITH FOR LOOP-->
+            <div class="claim-card">
+
+                <img 
+                     class="claim-thumb" />
+
+                <div class="claim-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="claim-title">Black Leather Wallet</h5>
+                        <span class="badge pending">PENDING</span>
+                    </div>
+
+                    <div class="claim-meta">
+                        <span><i class="bi"></i>ID: 0123</span>
+                        <span><i class="bi bi-person"></i> Maria Santos</span>
+                        <span><i class="bi bi-telephone"></i> +63 917 123 4567</span>
+                        <span><i class="bi bi-calendar3"></i> 4/26/2026</span>
+                    </div>
+
+                    <div class="proof-box">
+                        <p style="font-family: 'Spline Sans Mono', monospace; font-size: 12px;">PROOF OF OWNERSHIP</p>
+                        Black leather wallet with ID and credit card ending 4523.
+                    </div>
+
+                    <div class="claim-actions">
+                        <button class="btn-approve">
+                            <i class="bi bi-check-lg"></i> Approve
+                        </button>
+                        <button class="btn-reject">
+                            <i class="bi bi-x-lg"></i> Reject
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+

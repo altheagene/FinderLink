@@ -1,0 +1,141 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<style>
+    .card-dark {
+        background: #FFFEFC;
+        border-radius: 16px;
+        padding: 2.2rem;
+        border: 1px solid #ece9f5;
+    }
+
+        .card-dark p {
+            font-size: 0.8rem;
+            /* font-weight: 500; */
+
+           
+            /* color: #9c8e82; */
+        }
+
+    .icon-wrapper {
+        padding: 0.7rem 0.9rem;
+        border-radius: 10px
+    }
+
+        .icon-wrapper i {
+            font-size: 1.2rem;
+        }
+
+    label {
+        font-size: 12px;
+        font-weight: 500;
+        color: #7a6f66;
+        margin-bottom: 4px;
+    }
+
+        label span {
+            color: #e5484d;
+        }
+
+    .input-div {
+        display: flex;
+        flex-direction: column;
+    }
+
+    input, select, textarea {
+        border-radius: 10px;
+        border: 1px solid #e5e1dc;
+        padding: 0.6rem 0.8rem;
+        font-size: 14px;
+        outline: none;
+        transition: 0.2s ease;
+    }
+
+</style>
+
+<div class="page">
+    <div class="page-header">
+        <h1>Settings</h1>
+        <p>
+            Manage your account settings
+        </p>
+    </div>
+
+    <div class="row g-4">
+        <div class="card-dark col-6">
+            <div class="d-flex align-items-center gap-3 mb-4">
+                <div class="icon-wrapper" style="background-color: #FDF9C4">
+                    <i class="bi bi-person" style="color: #b8a900;"></i>
+                </div>
+                <div class="d-flex justify-content-center flex-column">
+                    <p class="fw-bold" style="font-size: 1rem; margin-bottom: 0px">Profile Settings</p>
+                    <p style="font-size: 0.85rem; margin-bottom: 0px">Update your account information</p>
+                </div>
+
+                
+                
+            </div>
+            <form class="d-flex flex-column gap-4">
+                    
+                <div class="input-div">
+                    <label>FULL NAME <span>*</span></label>
+                    <input />
+                </div>
+
+                <div class="input-div">
+                    <label>EMAIL <span>*</span></label>
+                    <input />
+                </div>
+
+                <div class="input-div">
+                    <label>ROLE <span>*</span></label>
+                    <input />
+                </div>
+
+                <button style="background-color: #2a2a2a; color: white; border-radius: 20px; padding: 0.5rem 0;">
+                    Save Changes
+                </button>
+            </form>
+        </div>
+
+        <div class="card-dark col-6">
+            <div class="d-flex align-items-center gap-3 mb-4">
+                <div class="icon-wrapper" style="background-color: #FDE8F1">
+                    <i class="bi bi-shield-lock" style="color: #c85a88;"></i>
+                </div>
+                <div class="d-flex justify-content-center flex-column">
+                    <p class="fw-bold" style="font-size: 1rem; margin-bottom: 0px">Security Settings</p>
+                    <p style="font-size: 0.85rem; margin-bottom: 0px">
+                        Password and access control
+
+                </div>
+                
+            </div>
+
+                <form class="d-flex flex-column gap-4">
+                    
+                    <div class="input-div">
+                        <label>CURRENT PASSWORD <span>*</span></label>
+                        <input />
+                    </div>
+
+                    <div class="input-div">
+                        <label>NEW PASSWORD <span>*</span></label>
+                        <input />
+                    </div>
+
+                    <div class="input-div">
+                        <label>CONFIRM PASSWORD <span>*</span></label>
+                        <input />
+                    </div>
+
+                    <button style="background-color: #2a2a2a; color: white; border-radius: 20px; padding: 0.5rem 0;">
+                        Save Changes
+                    </button>
+                </form>
+        </div>
+    </div>
+</div>

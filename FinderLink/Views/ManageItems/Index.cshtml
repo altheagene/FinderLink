@@ -1,0 +1,191 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<style>
+    /* ===== PANELS ===== */
+    .card-dark {
+        background: #FFFEFC;
+        border-radius: 14px;
+        padding: 20px;
+        border: 1px solid #ece9f5;
+    }
+
+        .card-dark p {
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #eee;
+            font-family: 'Spline Sans Mono', monospace;
+            color: #9c8e82;
+        }
+
+    /* ===== TABLE ===== */
+    .table {
+        background: transparent !important;
+        color: #1e1b2e;
+        
+    }
+
+    tr{
+        /* border-bottom: 1px solid rgba(92, 82, 74, 0.6) */
+    }
+
+        .table th {
+            font-size: 12px;
+            color: rgba(92, 82, 74, 0.8);
+            font-family: 'Spline Sans Mono', monospace;
+        }
+
+        .table td {
+            font-size: 14px;
+            border-top: 1px solid #eee;
+        }
+
+    /* ROW HOVER */
+    .table tbody tr {
+        transition: 0.2s ease;
+    }
+
+        .table tbody tr:hover {
+            background: rgba(0, 0, 0, 0.03);
+        }
+
+    /* ITEM CELL */
+    .item-wrap {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .item-img {
+        width: 38px;
+        height: 38px;
+        border-radius: 8px;
+        background: #f3f3f3;
+    }
+
+    .item-name {
+        font-weight: 600;
+        font-size: 14px;
+        color: #1e1b2e;
+    }
+
+    .item-desc {
+        font-size: 12px;
+        color: #9c8e82;
+    }
+
+    /* STATUS BADGE */
+    .status {
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        display: inline-block;
+    }
+
+        .status.unclaimed {
+            background: rgba(255, 193, 7, 0.15);
+            color: #b88900;
+        }
+
+        .status.claimed {
+            background: rgba(40, 167, 69, 0.15);
+            color: #2e7d32;
+        }
+
+    /* ACTION BUTTON */
+    .action-btn {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.2s;
+        cursor: pointer;
+    }
+
+        .action-btn:hover {
+            background: rgba(0,0,0,0.05);
+        }
+
+</style>
+<div class="page">
+    <div class="page-header">
+        <h1>Manage Items</h1>
+        <p>View and manage all lost and found items</p>
+    </div>
+
+    <div class="card-dark mt-4 pb-5S">
+       
+        <div class="d-flex gap-3 align-items-center mb-5">
+            <div class="position-relative mr-4" style="width: 100%; max-width: 500px;">
+                <i class="bi bi-search position-absolute" style="top: 0.4rem; left: 0.7rem"></i>
+                <input placeholder="Search items..." style="width: 100%; border-radius: 20px; padding-left: 2.3rem;" />
+            </div>
+
+            <select class="rounded-4 px-3">
+                <option>All Categories</option>
+            </select>
+
+            <select class="rounded-4 px-3">
+                <option>All Locations</option>
+            </select>
+            
+        </div>
+
+        <table class="table table-borderless mt-3">
+            <thead>
+                <tr>
+                    <th>ITEM</th>
+                    <th>CATEGORY</th>
+                    <th>LOCATION</th>
+                    <th>DATE FOUND</th>
+                    <th>STATUS</th>
+                    <th>ACTIONS</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="item-cell">
+                        <div class="item-wrap">
+                            <div class="item-img"></div>
+                            <div>
+                                <div class="item-name">iPhone 15 Pro Max</div>
+                                <div class="item-desc">Black, slightly scratched</div>
+                            </div>
+                        </div>
+                    </td>
+                    
+                    <td>Electronics</td>
+                    <td>Station 3</td>
+                    <td>May 1, 2026</td>
+
+                    <td>
+                        <span class="status unclaimed">Unclaimed</span>
+                    </td>
+
+                    <td>
+                        <div class="action-btn">
+                            <i class="bi bi-three-dots-vertical"></i>
+                        </div>
+                    </td>
+                </tr>
+                @* @foreach (var item in ViewBag.RecentItems)
+                        {
+                            <tr>
+                                <td>@item.Name</td>
+                                <td>@item.Station</td>
+                                <td>@item.DateFound</td>
+                            </tr>
+                        } *@
+
+
+            </tbody>
+        </table>
+    </div>
+</div>
