@@ -1,0 +1,372 @@
+﻿@{
+    ViewBag.Title = "FinderLink";
+    ViewData["HideSidebar"] = true;
+}
+
+<style>
+    /* HEADER */
+    .header-bar {
+        padding: 0.6rem 1.2rem;
+        border-bottom: 1px solid rgba(92, 82, 74, 0.25);
+        background-color: #F5F0E8;
+    }
+
+    /* BRAND */
+    .brand-icon-wrap {
+        width: 40px;
+        height: 40px;
+        background-color: #2a2a2a;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .brand-icon-wrap i {
+            font-size: 1.4rem;
+            color: white;
+        }
+
+    /* TITLE */
+    .brand-title {
+        font-size: 1.4rem;
+        font-weight: 800;
+        color: #2a2a2a;
+    }
+
+    /* BUTTON */
+    .admin-btn {
+        background: #2a2a2a;
+        color: #fff;
+        border: none;
+        border-radius: 20px;
+        padding: 6px 14px;
+        font-size: 12px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        transition: 0.2s;
+    }
+
+        .admin-btn i {
+            font-size: 0.9rem;
+            transition: transform 0.2s;
+        }
+
+        .admin-btn:hover i {
+            transform: translateX(3px);
+        }
+
+    /* SEARCH SECTION */
+    .search-div {
+        min-height: 220px;
+        background: #2a2a2a;
+        border-radius: 28px;
+        padding: 2.2rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+        .search-div p {
+            font-family: 'Spline Sans Mono', monospace;
+            color: #e8d84f;
+            font-size: 11px;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .search-div h3 {
+            font-size: 2rem;
+            margin-bottom: 1.4rem;
+        }
+
+    /* SEARCH ROW */
+    .search-row {
+        display: flex;
+        gap: 10px;
+        margin-top: 1rem;
+        flex-wrap: wrap;
+    }
+
+    /* INPUT */
+    .search-bar {
+        flex: 1;
+        min-width: 220px;
+        border: none;
+        outline: none;
+        border-radius: 28px;
+        padding: 0.9rem 1.2rem;
+        background: rgba(245, 240, 232, 0.16);
+        color: white;
+        font-size: 14px;
+    }
+
+        .search-bar::placeholder {
+            color: rgba(255,255,255,0.5);
+        }
+
+        .search-bar:focus,
+        .filter-select:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(232, 216, 79, 0.6);
+            background: rgba(245, 240, 232, 0.22);
+        }
+
+    /* SELECTS */
+    .filter-select {
+        border: none;
+        outline: none;
+        border-radius: 20px;
+        padding: 0.7rem 1rem;
+        font-size: 13px;
+        background: rgba(245, 240, 232, 0.16);
+        color: white;
+        min-width: 160px;
+        cursor: pointer;
+    }
+
+        .filter-select option {
+            color: black;
+        }
+
+    /* PAGE BACKGROUND */
+    .page-bg {
+        background-color: #f0ebe3;
+        min-height: 100vh;
+        width: 100%;
+    }
+
+    /* RESULTS META */
+    .results-meta {
+        font-size: 13px;
+        color: #7a7060;
+    }
+
+    /* ITEM CARD */
+    .item-card {
+        background: #ffffff;
+        border-radius: 20px;
+        overflow: hidden;
+        border: none;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        transition: transform 0.2s, box-shadow 0.2s;
+        display: flex;
+        flex-direction: column;
+    }
+
+        .item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+
+    /* CARD IMAGE */
+    .item-card-img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        background-color: #e8e2d9;
+        display: block;
+    }
+
+    /* IMAGE PLACEHOLDER (broken img fallback) */
+    .item-card-img-placeholder {
+        width: 100%;
+        height: 200px;
+        background-color: #e8e2d9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #aaa;
+        font-size: 2rem;
+    }
+
+    /* CARD BODY */
+    .item-card-body {
+        padding: 1.1rem 1.2rem 1.3rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* CARD TITLE ROW */
+    .item-card-title-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 8px;
+        margin-bottom: 0.5rem;
+    }
+
+    .item-card-title {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin: 0;
+    }
+
+    /* CATEGORY BADGE */
+    .category-badge {
+        background: #ede8e0;
+        color: #5a5040;
+        font-size: 11px;
+        font-weight: 600;
+        border-radius: 20px;
+        padding: 3px 10px;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+    /* CARD DESCRIPTION */
+    .item-card-desc {
+        font-size: 13px;
+        color: #6b6356;
+        line-height: 1.5;
+        margin-bottom: 0.8rem;
+        flex: 1;
+    }
+
+    /* CARD META (location + date) */
+    .item-card-meta {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        margin-bottom: 1rem;
+        font-size: 12px;
+        color: #9a8f82;
+    }
+
+        .item-card-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+    /* CLAIM BUTTON */
+    .claim-btn {
+        background: #1a1a1a;
+        color: #fff;
+        border: none;
+        border-radius: 30px;
+        padding: 0.7rem 1rem;
+        font-size: 14px;
+        font-weight: 600;
+        width: 100%;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+
+        .claim-btn:hover {
+            background: #333;
+        }
+</style>
+
+<div class="page-bg">
+
+    <!-- HEADER -->
+    <div class="header-bar d-flex justify-content-between align-items-center ">
+        <div class="d-flex gap-2 align-items-center">
+            <div class="brand-icon-wrap">
+                <i class="bi bi-geo-alt"></i>
+            </div>
+            <div class="brand-title">FinderLink</div>
+        </div>
+        <button class="admin-btn">
+            Admin Portal
+            <i class="bi bi-arrow-right"></i>
+        </button>
+    </div>
+
+    <div class="p-4">
+
+        <!-- SEARCH SECTION -->
+        <div class="search-div mb-4">
+            <p>LOST SOMETHING?</p>
+            <h3 class="fw-bold text-light">Search found items</h3>
+            <div class="search-row">
+                <input class="search-bar" placeholder="Search items..." />
+                <select class="filter-select">
+                    <option>All Categories</option>
+                    <option>Wallet</option>
+                    <option>Electronics</option>
+                    <option>Bag</option>
+                    <option>Umbrella</option>
+                    <option>Clothing</option>
+                    <option>Other</option>
+                </select>
+                <select class="filter-select">
+                    <option>All Locations</option>
+                    <option>Door 3</option>
+                    <option>Cafeteria</option>
+                    <option>Benches</option>
+                    <option>Lobby</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- RESULTS META -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <span class="results-meta">Showing 8 of 8 unclaimed items</span>
+            <span class="results-meta">Sorted by newest</span>
+        </div>
+
+        <!-- CARDS GRID -->
+        <div class="row g-3">
+            
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="item-card h-100">
+
+                        <!-- IMAGE -->
+                        
+                            <img 
+                                 
+                                 class="item-card-img"
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+                            <div class="item-card-img-placeholder" style="display:none;">
+                                <i class="bi bi-image"></i>
+                            </div>
+                      
+                        @*     <div class="item-card-img-placeholder">
+                                <i class="bi bi-image"></i>
+                            </div>
+                         *@
+
+                        <!-- BODY -->
+                        <div class="item-card-body">
+
+                            <!-- TITLE + BADGE -->
+                            <div class="item-card-title-row">
+                                <h6 class="item-card-title">item name</h6>
+                                <span class="category-badge">Category</span>
+                            </div>
+
+                            <!-- DESCRIPTION -->
+                            <p class="item-card-desc">Description</p>
+
+                            <!-- LOCATION + DATE -->
+                            <div class="item-card-meta">
+                                <span>
+                                    <i class="bi bi-geo-alt"></i>
+                                    Location
+                                </span>
+                                <span>
+                                    <i class="bi bi-calendar3"></i>
+                                    
+                                </span>
+                            </div>
+
+                            <!-- CLAIM BUTTON -->
+                            <button class="claim-btn"
+                                    >
+                                Claim this item
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+            
+        </div>
+
+    </div>
+</div>
