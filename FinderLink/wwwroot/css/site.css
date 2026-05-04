@@ -22,6 +22,12 @@ body {
     font-family: 'Plus Jakarta Sans', sans-serif
 }
 
+a {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
 input, select, textarea {
     background-color: #F5F0E8;
     border: 1px solid rgba(92, 82, 74, 0.33);

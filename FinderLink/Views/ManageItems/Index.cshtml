@@ -113,6 +113,37 @@
             background: rgba(0,0,0,0.05);
         }
 
+    /* DROPDOWN MENU */
+    .action-menu {
+        border-radius: 10px;
+        border: 1px solid #eee;
+        padding: 6px;
+        min-width: 140px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    }
+
+        /* ITEMS */
+        .action-menu .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            border-radius: 8px;
+            padding: 6px 10px;
+            transition: 0.2s;
+        }
+
+            /* HOVER */
+            .action-menu .dropdown-item:hover {
+                background: rgba(0,0,0,0.04);
+            }
+
+        /* ICON */
+        .action-menu i {
+            font-size: 13px;
+            opacity: 0.7;
+        }
+
 </style>
 <div class="page">
     <div class="page-header">
@@ -170,8 +201,36 @@
                     </td>
 
                     <td>
-                        <div class="action-btn">
-                            <i class="bi bi-three-dots-vertical"></i>
+                        <div class="dropdown">
+                            <div class="action-btn" data-bs-toggle="dropdown">
+                                <i class="bi bi-three-dots-vertical"></i>
+                            </div>
+
+                            <ul class="dropdown-menu dropdown-menu-end action-menu">
+                                <li>
+                                    <a class="dropdown-item view-item"
+                                           href="#"
+                                           data-bs-toggle="modal"
+                                           data-bs-target="#viewItemModal"
+                                           data-name="iPhone 15 Pro Max"
+                                           data-desc="Black, slightly scratched"
+                                           data-category="Electronics"
+                                           data-location="Station 3"
+                                           data-date="May 1, 2026">
+                                        <i class="bi bi-eye"></i> View
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <i class="bi bi-pencil"></i> Edit
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item text-danger" href="#">
+                                        <i class="bi bi-trash"></i> Delete
+                                    </a>
+                                </li>
+                            </ul>
                         </div>
                     </td>
                 </tr>
@@ -187,5 +246,50 @@
 
             </tbody>
         </table>
+    </div>
+</div>
+
+<div class="modal fade" id="viewItemModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 16px;">
+
+            <div class="modal-body p-4">
+
+                <h5 class="fw-bold mb-3">Item Details</h5>
+
+                <div class="mb-3">
+                    <small class="text-muted">Item Name</small>
+                    <div id="v-name" class="fw-semibold"></div>
+                </div>
+
+                <div class="mb-3">
+                    <small class="text-muted">Description</small>
+                    <div id="v-desc"></div>
+                </div>
+
+                <div class="mb-3">
+                    <small class="text-muted">Category</small>
+                    <div id="v-category"></div>
+                </div>
+
+                <div class="mb-3">
+                    <small class="text-muted">Location</small>
+                    <div id="v-location"></div>
+                </div>
+
+                <div class="mb-3">
+                    <small class="text-muted">Date Found</small>
+                    <div id="v-date"></div>
+                </div>
+
+                <div class="text-end mt-4">
+                    <button class="btn btn-dark px-4" data-bs-dismiss="modal">
+                        Close
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
     </div>
 </div>

@@ -49,6 +49,10 @@
     .brand {
         text-align: center;
         margin-bottom: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+   
     }
 
     .brand-icon-wrap {
@@ -71,6 +75,7 @@
         font-size: 1.5rem;
         font-weight: 800;
         letter-spacing: -0.01em;
+        color: #2a2a2a;
     }
 
     .brand-subtitle {
@@ -273,6 +278,8 @@
         border-radius: 10px;
         color: white
     }
+
+
 </style>
 
 <div class="d-flex flex-row justify-content-center align-items-center w-100">
@@ -282,7 +289,7 @@
         <div class="brand-icon-wrap">
             <i class="bi bi-geo-alt"></i>
         </div>
-        <div class="brand-title">FinderLink</div>
+        <a href="/public/index" class="brand-title">FinderLink</a>
         <div class="brand-subtitle">Administration Portal</div>
     </div>
 
@@ -291,7 +298,7 @@
             <div class="admin-icon">
                 <i class="bi bi-lock"></i>
             </div>
-            <div class="card-heading">Admin Portal</div>
+            <div class="card-heading">Sign In</div>
         </div>
 
         <div class="card-sub mt-2">Please enter your credentials to log in to your account</div>
