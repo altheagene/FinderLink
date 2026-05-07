@@ -1,6 +1,29 @@
+using FinderLink.Data;
+using FinderLink.Services;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+    ?? throw new InvalidOperationException("DefaultConnection is missing in appsettings.json.");
+
+builder.Services.AddDbContext<FinderLinkDbContext>(options =>
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+
+builder.Services.AddSession(options =>
+{
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+    options.IdleTimeout = TimeSpan.FromHours(8);
+});
+
+builder.Services.AddScoped<IAdminService, AdminService>();
+builder.Services.AddScoped<IItemService, ItemService>();
+builder.Services.AddScoped<IClaimService, ClaimService>();
+builder.Services.AddScoped<IReleaseService, ReleaseService>();
+builder.Services.AddScoped<IAdminLogService, AdminLogService>();
+builder.Services.AddScoped<IDbInitializerService, DbInitializerService>();
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -14,7 +37,9 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 app.UseRouting();
+app.UseSession();
 
 app.UseAuthorization();
 
@@ -25,5 +50,11 @@ app.MapControllerRoute(
     pattern: "{controller=Public}/{action=Index}/{id?}")
     .WithStaticAssets();
 
+using (var scope = app.Services.CreateScope())
+{
+    var initializer = scope.ServiceProvider.GetRequiredService<IDbInitializerService>();
+    await initializer.InitializeAsync();
+    await initializer.SeedDefaultDataAsync();
+}
 
 app.Run();

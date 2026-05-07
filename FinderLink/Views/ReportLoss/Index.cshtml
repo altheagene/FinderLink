@@ -1,4 +1,5 @@
-﻿<style>
+﻿@model FinderLink.Models.ReportLossViewModel
+<style>
     .card-dark {
         background: #FFFEFC;
         border-radius: 16px;
@@ -188,50 +189,59 @@
                 <h6 class="fw-bold">New Item Report</h6>
             </div>
 
-            <form class="d-flex flex-column">
+            <form class="d-flex flex-column" method="post" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
 
                 <div class="d-flex gap-4">
                     <div class="input-div flex-grow-1">
                         <label>ITEM NAME <span>*</span></label>
-                        <input placeholder="Enter item name" />
+                        <input asp-for="ItemName" placeholder="Enter item name" />
                     </div>
 
                     <div class="input-div flex-grow-1">
                         <label>ITEM CATEGORY <span>*</span></label>
-                        <select>
-                            <option>Select Category</option>
+                        <select asp-for="Category">
+                            <option value="">Select Category</option>
+                            @foreach (var category in (string[])ViewBag.Categories)
+                            {
+                                <option value="@category">@category</option>
+                            }
                         </select>
                     </div>
                 </div>
 
                 <div class="input-div">
                     <label>ITEM DESCRIPTION <span>*</span></label>
-                    <textarea rows="4" placeholder="Describe the item..."></textarea>
+                    <textarea asp-for="Description" rows="4" placeholder="Describe the item..."></textarea>
                 </div>
 
                 <div class="d-flex gap-4">
                     <div class="input-div flex-grow-1">
                         <label>LOCATION FOUND <span>*</span></label>
-                        <select>
-                            <option>Select Location</option>
+                        <select asp-for="LocationFound">
+                            <option value="">Select Location</option>
+                            @foreach (var location in (string[])ViewBag.Locations)
+                            {
+                                <option value="@location">@location</option>
+                            }
                         </select>
                     </div>
 
                     <div class="input-div flex-grow-1">
                         <label>DATE FOUND <span>*</span></label>
-                        <input type="date" />
+                        <input asp-for="DateFound" type="date" />
                     </div>
                 </div>
 
                 <div class="d-flex gap-4">
                     <div class="input-div flex-grow-1">
                         <label>FOUND BY <span>*</span></label>
-                        <input placeholder="Enter name" />
+                        <input asp-for="FoundByName" placeholder="Enter name" />
                     </div>
 
                     <div class="input-div flex-grow-1">
                         <label>CONTACT <span>*</span></label>
-                        <input type="text" placeholder="Enter contact info" />
+                        <input asp-for="FoundByContact" type="text" placeholder="Enter contact info" />
                     </div>
                 </div>
 
@@ -240,12 +250,12 @@
                     <div class="file-upload">
                         <i class="bi bi-upload"></i><br />
                         <span>Click to upload or drag image</span>
-                        <input type="file" />
+                        <input asp-for="ItemPhoto" type="file" accept="image/*" />
                     </div>
                 </div>
 
                 <div class="d-flex justify-content-end gap-3 mt-3">
-                    <button class="btn-clear">Clear Form</button>
+                    <button type="reset" class="btn-clear">Clear Form</button>
                     <button class="btn-submit">
                         <i class="bi bi-check-lg"></i> Submit Report
                     </button>
@@ -258,13 +268,16 @@
             <p class="fw-semibold" style="font-size: 0.8rem;font-family: 'Spline Sans Mono', monospace; color: #5C524A;">RECENT ITEM REPORTS</p>
 
             <div class="recent-list">
-                <div class="recent-item">
-                    <div class="recent-img"></div>
-                    <div class="recent-info">
-                        <div class="recent-name">iPhone 15 Pro Max</div>
-                        <div class="recent-desc">Black, slightly scratched</div>
+                @foreach (var item in (List<FinderLink.Models.Item>)ViewBag.RecentItems)
+                {
+                    <div class="recent-item">
+                        <img class="recent-img" src="@item.ImagePath" />
+                        <div class="recent-info">
+                            <div class="recent-name">@item.ItemName</div>
+                            <div class="recent-desc">@item.Description</div>
+                        </div>
                     </div>
-                </div>
+                }
             </div>
         </div>
     </div>

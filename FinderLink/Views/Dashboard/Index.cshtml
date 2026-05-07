@@ -117,16 +117,14 @@
         <div class="col-md-3">
             <div class="stat-card" style="background-color: #FAF3CC">
                 <p>TOTAL ITEMS</p>
-                <h3>8</h3>
-                @* <h3>@ViewBag.TotalItems</h3> *@
+                <h3>@ViewBag.TotalItems</h3>
             </div>
         </div>
 
         <div class="col-md-3">
             <div class="stat-card" style="background-color: #E8ECE3">
                 <p>PENDING</p>
-                <h3>1</h3>
-                @* <h3>@ViewBag.PendingClaims</h3> *@
+                <h3>@ViewBag.PendingItems</h3>
                 
             </div>
         </div>
@@ -134,8 +132,7 @@
         <div class="col-md-3">
             <div class="stat-card" style="background-color: #F0EBE2;">
                 <p>CLAIMED</p>
-                <h3>7</h3>
-                @* <h3>@ViewBag.ClaimedItems</h3> *@
+                <h3>@ViewBag.ClaimedItems</h3>
                 
             </div>
         </div>
@@ -143,8 +140,7 @@
         <div class="col-md-3">
             <div class="stat-card" style="background-color: #E4E7EA;">
                 <p>UNCLAIMED</p>
-                <h3>1</h3>
-                @* <h3>@ViewBag.TotalStations</h3> *@
+                <h3>@ViewBag.UnclaimedItems</h3>
                 
             </div>
         </div>
@@ -158,8 +154,21 @@
         <div class="col-md-6">
             <div class="card-dark">
                 <p>LOST VS CLAIMED - MONTHLY</p>
-
-            
+                <table class="table table-borderless mt-2">
+                    <thead>
+                        <tr><th>MONTH</th><th>LOST</th><th>CLAIMED</th></tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var row in ViewBag.MonthlyStats)
+                        {
+                            <tr>
+                                <td>@row.Label</td>
+                                <td>@row.Lost</td>
+                                <td>@row.Claimed</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
 
@@ -167,8 +176,20 @@
         <div class="col-md-6">
             <div class="card-dark">
                 <p>ITEMS BY CATEGORY</p>
-
-                
+                <table class="table table-borderless mt-2">
+                    <thead>
+                        <tr><th>CATEGORY</th><th>COUNT</th></tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var row in ViewBag.CategoryStats)
+                        {
+                            <tr>
+                                <td>@row.Category</td>
+                                <td>@row.Count</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
 
@@ -188,16 +209,16 @@
                 </tr>
             </thead>
             <tbody>
-                @* @foreach (var item in ViewBag.RecentItems)
-                        {
-                            <tr>
-                                <td>@item.Name</td>
-                                <td>@item.Station</td>
-                                <td>@item.DateFound</td>
-                            </tr>
-                        } *@
-
-
+                @foreach (var item in ViewBag.RecentItems)
+                {
+                    <tr>
+                        <td>@item.ItemName</td>
+                        <td>@item.Category</td>
+                        <td>@item.LocationFound</td>
+                        <td>@item.DateFound.ToString("MMM d, yyyy")</td>
+                        <td>@item.Status</td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>

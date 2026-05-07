@@ -1,6 +1,7 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+@model List<FinderLink.Models.Claim>
 @{
 }
 <style>
@@ -225,7 +226,7 @@
                     <div class="icon-wrapper" style="background-color: #FDF9C4">
                         <i class="bi bi-clock" style="color: #b8a900;"></i>
                     </div>
-                    <h3>8</h3>
+                    <h3>@ViewBag.PendingCount</h3>
                 </div>
                
                 
@@ -239,7 +240,7 @@
                     <div class="icon-wrapper" style="background-color: #DFF0C8">
                         <i class="bi bi-check-circle" style="color: #4a7a1e"></i>
                     </div>
-                    <h3>0</h3>
+                    <h3>@ViewBag.VerifiedCount</h3>
                 </div>
                  
             </div>
@@ -252,7 +253,7 @@
                     <div class="icon-wrapper" style="background-color: #FDE8F1;">
                         <i class="bi bi-x-circle" style="color: #c85a88"></i>
                     </div>
-                    <h3>1</h3>
+                    <h3>@ViewBag.RejectedCount</h3>
                 </div>
                 
             </div>
@@ -260,61 +261,73 @@
     </div>
 
     <div class="card-dark mt-5">
+        <form method="get">
         <div class="position-relative mr-4" style="width: 100%;">
             <i class="bi bi-search position-absolute" style="top: 0.4rem; left: 0.7rem"></i>
-            <input placeholder="Search items..." style="width: 100%; border-radius: 20px; padding-left: 2.3rem;" />
+            <input name="search" value="@ViewBag.Search" placeholder="Search items..." style="width: 100%; border-radius: 20px; padding-left: 2.3rem;" />
         </div>
 
         <div class="d-flex align-items-center justify-content-between mt-3 flex-wrap gap-2">
 
             <!-- FILTERS -->
             <div class="filter-group">
-                <button class="filter-btn active">All Claims</button>
-                <button class="filter-btn">Pending</button>
-                <button class="filter-btn">Verified</button>
-                <button class="filter-btn">Rejected</button>
+                <button class="filter-btn @((string?)ViewBag.SelectedStatus == null ? "active" : "")" name="status" value="">All Claims</button>
+                <button class="filter-btn @((string?)ViewBag.SelectedStatus == "pending" ? "active" : "")" name="status" value="pending">Pending</button>
+                <button class="filter-btn @((string?)ViewBag.SelectedStatus == "verified" ? "active" : "")" name="status" value="verified">Verified</button>
+                <button class="filter-btn @((string?)ViewBag.SelectedStatus == "rejected" ? "active" : "")" name="status" value="rejected">Rejected</button>
             </div>
 
         </div>
+        </form>
 
         <div class="claim-list">
 
-            <!--REPLACE WITH FOR LOOP-->
+            @foreach (var claim in Model)
+            {
             <div class="claim-card">
 
-                <img 
+                <img src="@claim.Item?.ImagePath"
                      class="claim-thumb" />
 
                 <div class="claim-body">
 
                     <div class="d-flex justify-content-between align-items-center">
-                        <h5 class="claim-title">Black Leather Wallet</h5>
-                        <span class="badge pending">PENDING</span>
+                        <h5 class="claim-title">@claim.Item?.ItemName</h5>
+                        <span class="badge @claim.Status">@claim.Status.ToUpperInvariant()</span>
                     </div>
 
                     <div class="claim-meta">
-                        <span><i class="bi"></i>ID: 0123</span>
-                        <span><i class="bi bi-person"></i> Maria Santos</span>
-                        <span><i class="bi bi-telephone"></i> +63 917 123 4567</span>
-                        <span><i class="bi bi-calendar3"></i> 4/26/2026</span>
+                        <span><i class="bi"></i>ID: @claim.ClaimId</span>
+                        <span><i class="bi bi-person"></i> @claim.ClaimerName</span>
+                        <span><i class="bi bi-telephone"></i> @claim.ClaimerContact</span>
+                        <span><i class="bi bi-calendar3"></i> @claim.DateClaimed.ToString("M/d/yyyy")</span>
                     </div>
 
                     <div class="proof-box">
                         <p style="font-family: 'Spline Sans Mono', monospace; font-size: 12px;">PROOF OF OWNERSHIP</p>
-                        Black leather wallet with ID and credit card ending 4523.
+                        @claim.ClaimDescription
                     </div>
 
                     <div class="claim-actions">
-                        <button class="btn-approve">
-                            <i class="bi bi-check-lg"></i> Approve
-                        </button>
-                        <button class="btn-reject">
-                            <i class="bi bi-x-lg"></i> Reject
-                        </button>
+                        <form method="post" asp-controller="UserClaims" asp-action="Approve">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@claim.ClaimId" />
+                            <button class="btn-approve" type="submit">
+                                <i class="bi bi-check-lg"></i> Approve
+                            </button>
+                        </form>
+                        <form method="post" asp-controller="UserClaims" asp-action="Reject">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@claim.ClaimId" />
+                            <button class="btn-reject" type="submit">
+                                <i class="bi bi-x-lg"></i> Reject
+                            </button>
+                        </form>
                     </div>
 
                 </div>
             </div>
+            }
 
         </div>
     </div>

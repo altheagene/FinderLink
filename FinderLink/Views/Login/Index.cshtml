@@ -11,12 +11,12 @@
     :root {
         --bg:           #F5F0E8;
         --surface:      #FFFEFC;
-        --surface-2:    #2e1550;
+        --surface-2:    #ffffff;
         --purple:       #6d3fc0;
         --purple-light: #8b5cf6;
-        --border:       #3d2060;
-        --text:         #f0ebff;
-        --text-muted:   #9d86c4;
+        --border:       #d9d5cf;
+        --text:         #1f1f1f;
+        --text-muted:   #8a7f73;
         --error:        #f87171;
         --error-bg:     #2d1212;
         --error-border: #5c2020;
@@ -311,20 +311,20 @@
             </div>
         }
 
-        @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { id = "loginForm" }))
+        @using (Html.BeginForm("Index", "Login", FormMethod.Post, new { id = "loginForm" }))
         {
             @Html.AntiForgeryToken()
 
             <div class="mb-3">
                 <label class="form-label">Username</label>
-               <input />
+               @Html.TextBoxFor(m => m.Username, new { @class = "form-control-custom", placeholder = "Enter username", autocomplete = "username" })
                 @Html.ValidationMessageFor(m => m.Username, "", new { @class = "field-validation-error" })
             </div>
 
             <div class="mb-1">
                 <label class="form-label">Password</label>
                 <div class="input-group-custom" style="position:relative;">
-                    <input />
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control-custom", placeholder = "Enter password", autocomplete = "current-password", id = "Password" })
                     <button type="button" class="toggle-password" id="togglePassword" aria-label="Toggle password visibility">
                         <i class="bi bi-eye" id="eyeIcon"></i>
                     </button>
@@ -340,9 +340,9 @@
                 <a href="@Url.Action("ForgotPassword", "Account")" class="forgot-link">Forgot password?</a>
             </div> *@
 
-            <a href="/dashboard/index" type="submit" class="btn-login mt-3" style="text-align: center; text-decoration: none;" id="loginBtn">
+            <button type="submit" class="btn-login mt-3" style="text-align: center; text-decoration: none;" id="loginBtn">
                 Sign In
-            </a>
+            </button>
         }
 
         <hr class="divider" />

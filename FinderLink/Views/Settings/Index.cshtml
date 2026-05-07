@@ -1,8 +1,7 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@{
-}
+@model FinderLink.Models.SettingsViewModel
 
 <style>
     .card-dark {
@@ -78,21 +77,27 @@
                 
                 
             </div>
-            <form class="d-flex flex-column gap-4">
+            <form class="d-flex flex-column gap-4" method="post" asp-controller="Settings" asp-action="UpdateProfile">
+                @Html.AntiForgeryToken()
                     
                 <div class="input-div">
                     <label>FULL NAME <span>*</span></label>
-                    <input />
+                    <input asp-for="Name" />
                 </div>
 
                 <div class="input-div">
                     <label>EMAIL <span>*</span></label>
-                    <input />
+                    <input asp-for="Email" />
+                </div>
+
+                <div class="input-div">
+                    <label>USERNAME <span>*</span></label>
+                    <input asp-for="Username" />
                 </div>
 
                 <div class="input-div">
                     <label>ROLE <span>*</span></label>
-                    <input />
+                    <input asp-for="Role" readonly />
                 </div>
 
                 <button style="background-color: #2a2a2a; color: white; border-radius: 20px; padding: 0.5rem 0;">
@@ -115,21 +120,22 @@
                 
             </div>
 
-                <form class="d-flex flex-column gap-4">
+                <form class="d-flex flex-column gap-4" method="post" asp-controller="Settings" asp-action="UpdatePassword">
+                    @Html.AntiForgeryToken()
                     
                     <div class="input-div">
                         <label>CURRENT PASSWORD <span>*</span></label>
-                        <input />
+                        <input asp-for="CurrentPassword" type="password" />
                     </div>
 
                     <div class="input-div">
                         <label>NEW PASSWORD <span>*</span></label>
-                        <input />
+                        <input asp-for="NewPassword" type="password" />
                     </div>
 
                     <div class="input-div">
                         <label>CONFIRM PASSWORD <span>*</span></label>
-                        <input />
+                        <input asp-for="ConfirmPassword" type="password" />
                     </div>
 
                     <button style="background-color: #2a2a2a; color: white; border-radius: 20px; padding: 0.5rem 0;">
