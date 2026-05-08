@@ -9,17 +9,8 @@
     @@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
     :root {
-        --bg:           #F5F0E8;
-        --surface:      #FFFEFC;
-        --surface-2:    #ffffff;
-        --purple:       #6d3fc0;
-        --purple-light: #8b5cf6;
-        --border:       #d9d5cf;
-        --text:         #1f1f1f;
-        --text-muted:   #8a7f73;
-        --error:        #f87171;
-        --error-bg:     #2d1212;
-        --error-border: #5c2020;
+        --accent: #e8d84f;
+        --accent-soft: rgba(232, 216, 79, 0.22);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -27,7 +18,7 @@
     html, body {
         height: 100%;
         /* font-family: 'Inter', sans-serif; */
-        background-color: var(--bg);
+        background-color: #F5F0E8;
         color: #2a2a2a
     }
 
@@ -88,7 +79,7 @@
 
     /* ── Card ── */
     .login-card {
-        background-color: var(--surface);
+        background-color: white;
         border-radius: 12px;
         padding: 2rem 2.2rem;
         box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
@@ -147,55 +138,66 @@
 
     .input-icon {
         position: absolute;
-        left: 11px;
+        left: 12px;
         top: 50%;
         transform: translateY(-50%);
-        color: var(--text-muted);
+        color: #9c8e82;
         font-size: 0.9rem;
         pointer-events: none;
         z-index: 2;
     }
 
-    input{
-        height: 40px;
-        width: 100%;
-        border-radius: 10px;
-    }
-
+    /* INPUT */
     .form-control-custom {
-        display: block;
         width: 100%;
-        background-color: var(--surface-2);
-        border: 1px solid var(--border);
-        border-radius: 8px;
-        color: var(--text);
-        font-family: 'Inter', sans-serif;
-        font-size: 0.875rem;
-        padding: 0.65rem 1rem 0.65rem 2.4rem;
+        height: 46px;
+        background: #F5F0E8;
+        border: 1px solid #ddd6ce;
+        border-radius: 12px;
+        color: #2a2a2a;
+        font-size: 0.9rem;
+        padding: 0.7rem 2.8rem 0.7rem 0.95rem; /* reduced left padding */
         outline: none;
-        transition: border-color 0.15s, box-shadow 0.15s;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease, background-color 0.2s ease;
     }
 
-    .form-control-custom::placeholder { color: var(--text-muted); opacity: 0.5; }
+        /* PLACEHOLDER */
+        .form-control-custom::placeholder {
+            color: #b0a79f;
+            opacity: 1;
+        }
 
-    .form-control-custom:focus {
-        border-color: var(--purple-light);
-        box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
-    }
+        /* FOCUS */
+        .form-control-custom:focus {
+            border-color: #e8d84f;
+            background: #fffef8;
+            box-shadow: 0 0 0 4px rgba(232, 216, 79, 0.18);
+            transform: translateY(-1px);
+        }
 
+        /* HOVER */
+        .form-control-custom:hover {
+            border-color: #cfc6bc;
+        }
+
+    /* PASSWORD TOGGLE */
     .toggle-password {
         position: absolute;
-        right: 11px;
+        right: 12px;
         top: 50%;
         transform: translateY(-50%);
-        background: none;
+        background: transparent;
         border: none;
+        color: #8f8478;
         cursor: pointer;
-        font-size: 0.9rem;
-        padding: 0;
-        z-index: 3;
-        line-height: 1;
+        font-size: 0.95rem;
+        transition: 0.2s ease;
     }
+
+        .toggle-password:hover {
+            color: #2a2a2a;
+            transform: translateY(-50%) scale(1.05);
+        }
 
 
     /* ── Options row ── */

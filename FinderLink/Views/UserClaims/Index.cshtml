@@ -308,22 +308,28 @@
                         @claim.ClaimDescription
                     </div>
 
-                    <div class="claim-actions">
-                        <form method="post" asp-controller="UserClaims" asp-action="Approve">
-                            @Html.AntiForgeryToken()
-                            <input type="hidden" name="id" value="@claim.ClaimId" />
-                            <button class="btn-approve" type="submit">
-                                <i class="bi bi-check-lg"></i> Approve
-                            </button>
-                        </form>
-                        <form method="post" asp-controller="UserClaims" asp-action="Reject">
-                            @Html.AntiForgeryToken()
-                            <input type="hidden" name="id" value="@claim.ClaimId" />
-                            <button class="btn-reject" type="submit">
-                                <i class="bi bi-x-lg"></i> Reject
-                            </button>
-                        </form>
-                    </div>
+                        @if (claim.Status?.ToLower() == "pending")
+                        {
+                            <div class="claim-actions">
+
+                                <form method="post" asp-controller="UserClaims" asp-action="Approve">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@claim.ClaimId" />
+                                    <button class="btn-approve" type="submit">
+                                        <i class="bi bi-check-lg"></i> Approve
+                                    </button>
+                                </form>
+
+                                <form method="post" asp-controller="UserClaims" asp-action="Reject">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@claim.ClaimId" />
+                                    <button class="btn-reject" type="submit">
+                                        <i class="bi bi-x-lg"></i> Reject
+                                    </button>
+                                </form>
+
+                            </div>
+                        }
 
                 </div>
             </div>

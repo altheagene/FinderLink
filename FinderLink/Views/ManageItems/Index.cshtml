@@ -209,7 +209,15 @@
                 <tr>
                     <td class="item-cell">
                         <div class="item-wrap">
-                            <img class="item-img" src="@item.ImagePath" />
+                                @if (!string.IsNullOrEmpty(item.ImagePath))
+                                {
+                                    <img class="item-img" src="@item.ImagePath" alt="@item.ItemName" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />    <div class="item-img d-none align-items-center justify-content-center" style="display:none; background:#f0ebe3; color:#9c8e82;">        <i class="bi bi-image"></i>    </div>
+                                }
+                                else
+                                {
+
+                                    <div class="item-img d-flex align-items-center justify-content-center" style="background:#f0ebe3; color:#9c8e82;">        <i class="bi bi-image"></i>    </div>
+                                }
                             <div>
                                 <div class="item-name">@item.ItemName</div>
                                 <div class="item-desc">@item.Description</div>
@@ -246,14 +254,31 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <form method="post" asp-controller="ManageItems" asp-action="Delete">
-                                        @Html.AntiForgeryToken()
-                                        <input type="hidden" name="id" value="@item.ItemId" />
-                                        <button class="dropdown-item text-danger" type="submit">
+                                        <a class="dropdown-item text-danger delete-item"
+                                            href="#"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#deleteItemModal"
+                                            data-id="@item.ItemId"
+                                            data-name="@item.ItemName">
                                             <i class="bi bi-trash"></i> Delete
-                                        </button>
-                                    </form>
+                                        </a>
                                 </li>
+                                    <li>
+                                        <a class="dropdown-item edit-item"
+                                               href="#"
+                                               data-bs-toggle="modal"
+                                               data-bs-target="#editItemModal"
+                                               data-id="@item.ItemId"
+                                               data-name="@item.ItemName"
+                                               data-desc="@item.Description"
+                                               data-category="@item.Category"
+                                               data-location="@item.LocationFound"
+                                               data-status="@item.Status"
+                                               data-image="@item.ImagePath">
+
+                                            <i class="bi bi-pencil-square"></i> Edit
+                                        </a>
+                                    </li>
                             </ul>
                         </div>
                     </td>
@@ -284,6 +309,88 @@
             document.getElementById("v-category").textContent = trigger.dataset.category || "";
             document.getElementById("v-location").textContent = trigger.dataset.location || "";
             document.getElementById("v-date").textContent = trigger.dataset.date || "";
+        });
+    </script>
+
+    <script>
+        document.addEventListener("click", function (e) {
+
+            // ======================
+            // VIEW MODAL
+            // ======================
+            const viewTrigger = e.target.closest(".view-item");
+            if (viewTrigger) {
+                document.getElementById("v-name").textContent = viewTrigger.dataset.name || "";
+                document.getElementById("v-desc").textContent = viewTrigger.dataset.desc || "";
+                document.getElementById("v-category").textContent = viewTrigger.dataset.category || "";
+                document.getElementById("v-location").textContent = viewTrigger.dataset.location || "";
+                document.getElementById("v-date").textContent = viewTrigger.dataset.date || "";
+            }
+
+            // ======================
+            // EDIT MODAL
+            // ======================
+            const editTrigger = e.target.closest(".edit-item");
+            if (editTrigger) {
+                document.getElementById("removeImageFlag").value = "false";
+                document.getElementById("editItemId").value =
+                    editTrigger.dataset.id || "";
+
+                document.getElementById("editName").value =
+                    editTrigger.dataset.name || "";
+
+                document.getElementById("editDesc").value =
+                    editTrigger.dataset.desc || "";
+
+               document.getElementById("editCategory").value =
+                    editTrigger.dataset.category || "";
+
+                document.getElementById("editLocation").value =
+                    editTrigger.dataset.location || "";
+
+                // ===== IMAGE PREVIEW =====
+                const img = editTrigger.dataset.image;
+                const preview = document.getElementById("editImagePreview");
+
+                if (img) {
+                    preview.src = img;
+                    preview.style.display = "block";
+                } else {
+                    preview.style.display = "none";
+                }
+            }
+
+            // ======================
+            // DELETE MODAL
+            // ======================
+            const deleteTrigger = e.target.closest(".delete-item");
+
+            if (deleteTrigger) {
+
+                document.getElementById("deleteItemId").value =
+                    deleteTrigger.dataset.id || "";
+
+                document.getElementById("deleteItemName").textContent =
+                    deleteTrigger.dataset.name || "this item";
+            }
+
+            });
+
+            document.getElementById("removeImageBtn").addEventListener("click", function () {
+
+            const preview = document.getElementById("editImagePreview");
+            const fileInput = document.getElementById("editImageFile");
+            const flag = document.getElementById("removeImageFlag");
+
+            // clear preview
+            preview.src = "";
+            preview.style.display = "none";
+
+            // clear file input
+            fileInput.value = "";
+
+            // mark for backend
+            flag.value = "true";
         });
     </script>
 }
@@ -326,6 +433,165 @@
                         Close
                     </button>
                 </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- EDIT MODAL -->
+
+<div class="modal fade" id="editItemModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content finder-modal">
+
+            <div class="modal-body p-4">
+
+                <h5 class="mb-1">Edit Item</h5>
+
+                <p class="text-muted mb-4" style="font-size: 13px;">
+                    Update item details below.
+                </p>
+
+                <form method="post"
+                      asp-action="Edit"
+                      asp-controller="ManageItems"
+                      enctype="multipart/form-data"
+                      class="d-flex flex-column gap-3">
+
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" id="editItemId" name="ItemId" />
+
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <label class="form-label mb-0">ITEM IMAGE</label>
+
+                        <button type="button"
+                                class="btn btn-sm btn-outline-danger"
+                                id="removeImageBtn">
+                            <i class="bi bi-trash"></i> Remove
+                        </button>
+                    </div>
+
+                    <img id="editImagePreview"
+                         style="width:100%;
+                    max-height:200px;
+                    object-fit:cover;
+                    border-radius:10px;
+                    margin-bottom:10px;
+                    display:none;" />
+
+                    <input type="hidden" id="removeImageFlag" name="RemoveImage" value="false" />
+
+                    <input type="file"
+                           class="form-control custom-input"
+                           id="editImageFile"
+                           name="ImageFile"
+                           accept="image/*" />
+                    <div>
+                        <label class="form-label">ITEM NAME</label>
+                        <input id="editName" name="ItemName" class="form-control custom-input" />
+                    </div>
+
+                    <div>
+                        <label class="form-label">DESCRIPTION</label>
+                        <textarea id="editDesc" name="Description"
+                                  class="form-control custom-input"
+                                  rows="3"></textarea>
+                    </div>
+
+                    <div class="row g-2">
+
+                        <!-- CATEGORY -->
+                        <div class="col-md-6">
+                            <label class="form-label">CATEGORY</label>
+                            <select id="editCategory"
+                                    name="Category"
+                                    class="form-control custom-input">
+                                @foreach (var c in (string[])ViewBag.Categories)
+                                {
+                                    <option value="@c">@c</option>
+                                }
+                            </select>
+                        </div>
+
+                        <!-- LOCATION -->
+                        <div class="col-md-6">
+                            <label class="form-label">LOCATION</label>
+                            <select id="editLocation"
+                                    name="LocationFound"
+                                    class="form-control custom-input">
+                                @foreach (var l in (string[])ViewBag.Locations)
+                                {
+                                    <option value="@l">@l</option>
+                                }
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2 mt-2">
+                        <button type="button" class="btn-cancel" data-bs-dismiss="modal">
+                            Cancel
+                        </button>
+
+                        <button type="submit" class="btn-submit">
+                            Save Changes →
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- DELETE MODAL -->
+
+<div class="modal fade" id="deleteItemModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content finder-modal">
+
+            <div class="modal-body p-4 text-center">
+
+                <div class="mb-3">
+                    <i class="bi bi-exclamation-triangle-fill"
+                       style="font-size: 2rem; color:#b88900;"></i>
+                </div>
+
+                <h5 class="fw-bold mb-2">Delete Item?</h5>
+
+                <p class="text-muted mb-4" style="font-size: 13px;">
+                    Are you sure you want to delete <span id="deleteItemName" class="fw-semibold"></span>?<br />
+                    This action cannot be undone.
+                </p>
+
+                <form method="post"
+                      asp-controller="ManageItems"
+                      asp-action="Delete">
+
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" id="deleteItemId" name="id" />
+
+                    <div class="d-flex justify-content-center gap-2">
+
+                        <button type="button"
+                                class="btn-cancel"
+                                data-bs-dismiss="modal">
+                            Cancel
+                        </button>
+
+                        <button type="submit"
+                                class="btn-submit"
+                                style="background:#b91c1c;">
+                            Yes, Delete
+                        </button>
+
+                    </div>
+                </form>
 
             </div>
 

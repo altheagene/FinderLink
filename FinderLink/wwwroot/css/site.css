@@ -65,6 +65,66 @@ label {
     font-family: 'Spline Sans Mono', monospace
 }
 
+/* MODAL BASE (shared style for FinderLink) */
+.finder-modal {
+    border-radius: 18px;
+    border: none;
+    background: #FFFEFC;
+}
+
+    /* HEADER STYLE */
+    .finder-modal h5 {
+        font-weight: 700;
+        color: #1a1a1a;
+    }
+
+/* INPUT STYLE (same as claim modal) */
+.custom-input {
+    border-radius: 10px;
+    border: 1px solid #e5e1dc;
+    font-size: 14px;
+    padding: 0.6rem 0.8rem;
+    transition: 0.2s ease;
+    background: #F5F0E8;
+}
+
+    .custom-input:focus {
+        border-color: #e8d84f;
+        box-shadow: 0 0 0 2px rgba(232, 216, 79, 0.25);
+    }
+
+/* LABEL */
+.form-label {
+    font-size: 12px;
+    color: #5C524A;
+    margin-bottom: 4px;
+}
+
+/* BUTTONS (shared) */
+.btn-cancel {
+    background: transparent;
+    border: none;
+    font-size: 13px;
+    font-weight: 600;
+    color: #5C524A;
+    padding: 6px 12px;
+}
+
+.btn-submit {
+    background: #2a2a2a;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: 0.2s ease;
+}
+
+    .btn-submit:hover {
+        background: #1f1f1f;
+    }
+
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
   color: var(--bs-secondary-color);
   text-align: end;

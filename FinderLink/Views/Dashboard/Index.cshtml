@@ -4,6 +4,18 @@
 
 <style>
     /* ===== DASHBOARD BASE ===== */
+
+    @{
+    var colors = new Dictionary<string, string>
+    {
+    { "Phones & Gadgets", "#c4b800" } ,
+    { "IDs & Documents", "#4a7a1e" } ,
+        { "Wallets & Purses", "#c85a88" },
+    { "Clothing", "#1a6aad" } ,
+    { "Keys", "#c05a18" } ,
+        { "Others", "#6b7280" }
+    };
+}
     .page {
         min-height: 100vh;
         color: #1e1b2e;
@@ -114,31 +126,31 @@
     <!-- STATS -->
     <div class="row g-4">
 
-        <div class="col-md-3">
-            <div class="stat-card" style="background-color: #FAF3CC">
+        <div class="col-md-4">
+            <div class="stat-card" style="background-color: #fdf9c4">
                 <p>TOTAL ITEMS</p>
                 <h3>@ViewBag.TotalItems</h3>
             </div>
         </div>
 
-        <div class="col-md-3">
+        @* <div class="col-md-3">
             <div class="stat-card" style="background-color: #E8ECE3">
                 <p>PENDING</p>
                 <h3>@ViewBag.PendingItems</h3>
                 
             </div>
-        </div>
+        </div> *@
 
-        <div class="col-md-3">
-            <div class="stat-card" style="background-color: #F0EBE2;">
+        <div class="col-md-4">
+            <div class="stat-card" style="background-color: #dff0c8;">
                 <p>CLAIMED</p>
                 <h3>@ViewBag.ClaimedItems</h3>
                 
             </div>
         </div>
 
-        <div class="col-md-3">
-            <div class="stat-card" style="background-color: #E4E7EA;">
+        <div class="col-md-4">
+            <div class="stat-card" style="background-color:#fde8f1;">
                 <p>UNCLAIMED</p>
                 <h3>@ViewBag.UnclaimedItems</h3>
                 
@@ -175,30 +187,121 @@
         <!-- RECENT CLAIMS -->
         <div class="col-md-6">
             <div class="card-dark">
-                <p>ITEMS BY CATEGORY</p>
-                <table class="table table-borderless mt-2">
-                    <thead>
-                        <tr><th>CATEGORY</th><th>COUNT</th></tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var row in ViewBag.CategoryStats)
-                        {
-                            <tr>
-                                <td>@row.Category</td>
-                                <td>@row.Count</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        @* <h6 class="fw-bold mb-1"
+                            style="font-family:'Plus Jakarta Sans', sans-serif; color:#1e1e1e;">
+                            Category Overview
+                        </h6> *@
+
+                        <small style="color:#9c8e82; font-family:'Spline Sans Mono', monospace;">
+                            Distribution of found items
+                        </small>
+                    </div>
+                </div>
+
+                @{
+                    var total = 0;
+
+                    foreach (var row in ViewBag.CategoryStats)
+                    {
+                        total += row.Count;
+                    }
+                }
+
+                <div class="d-flex flex-column gap-4">
+
+                    @foreach (var row in ViewBag.CategoryStats)
+                    {
+                        var percent = total > 0
+                            ? (row.Count * 100) / total
+                            : 0;
+
+                        <div>
+
+                            <!-- LABEL -->
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+
+                                <div class="d-flex align-items-center gap-2">
+                                    <div style="
+                                    width:10px;
+                                    height:10px;
+                                    border-radius:50%;
+                                    background:@(colors.ContainsKey(row.Category) ? colors[row.Category] : "#1e1e1e");
+                                    "></div>
+
+                                    <span style="
+                                        font-family:'Spline Sans Mono', monospace;
+                                        font-size:14px;
+                                        font-weight:500;
+                                        color:#5c524a;
+                                        ">
+                                        @row.Category
+                                    </span>
+                                </div>
+
+                                <span style="
+                                    font-size:12px;
+                                    color:#9c8e82;
+                                    font-family:'Spline Sans Mono', monospace;
+                                    ">
+                                    @row.Count items
+                                </span>
+
+                            </div>
+
+                            <!-- BAR -->
+                            <div style="
+                                width:100%;
+                                height:10px;
+                                background:#efe9df;
+                                border-radius:999px;
+                                overflow:hidden;
+                                ">
+
+                                <div style="
+                                width:@percent%;
+                                height:100%;
+                                background:@(colors.ContainsKey(row.Category) ? colors[row.Category] : "#1e1e1e");
+                                border-radius:999px;
+                                transition:0.4s ease;
+                                "></div>
+
+                            </div>
+
+                        </div>
+                    }
+
+                </div>
+
             </div>
         </div>
 
     </div>
 
     <div class="card-dark mt-4">
-        <h6 class="fw-bold" style="font-family:'Plus Jakarta Sans', sans-serif; color: #1e1e1e;">Recent Items</h6>
 
-        <table class="table table-borderless mt-3">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+                <h6 class="fw-bold mb-1"
+                    style="font-family:'Plus Jakarta Sans', sans-serif; color:#1e1e1e;">
+                    Recent Items
+                </h6>
+
+                <small style="color:#9c8e82; font-family:'Spline Sans Mono', monospace;">
+                    Latest reported items in the system
+                </small>
+            </div>
+
+            <a href="/ManageItems"
+                   class="btn btn-sm rounded-4 px-3"
+                   style="background:#1e1e1e; color:white;">
+                View All
+            </a>
+        </div>
+
+        <table class="table table-borderless align-middle mt-3">
             <thead>
                 <tr>
                     <th>ITEM</th>
@@ -208,19 +311,104 @@
                     <th>STATUS</th>
                 </tr>
             </thead>
+
             <tbody>
                 @foreach (var item in ViewBag.RecentItems)
                 {
                     <tr>
-                        <td>@item.ItemName</td>
-                        <td>@item.Category</td>
+
+                        <!-- ITEM -->
+                        <td>
+                            <div class="d-flex align-items-center gap-3">
+
+                                @if (!string.IsNullOrEmpty(item.ImagePath))
+                                {
+                                    <img src="@item.ImagePath"
+                                         style="
+                                    width:42px;
+                                    height:42px;
+                                    border-radius:10px;
+                                    object-fit:cover;
+                                    background:#f3f3f3;
+                                    " />
+                                }
+                                else
+                                {
+                                    <div style="
+                                        width:42px;
+                                        height:42px;
+                                        border-radius:10px;
+                                        background:#f0ebe3;
+                                        display:flex;
+                                        align-items:center;
+                                        justify-content:center;
+                                        color:#9c8e82;
+                                        ">
+                                        <i class="bi bi-image"></i>
+                                    </div>
+                                }
+
+                                <div>
+                                    <div style="
+                                        font-weight:600;
+                                        color:#1e1e1e;
+                                        font-size:14px;
+                                        ">
+                                        @item.ItemName
+                                    </div>
+
+                                    <div style="
+                                        font-size:12px;
+                                        color:#9c8e82;
+                                        max-width:220px;
+                                        white-space:nowrap;
+                                        overflow:hidden;
+                                        text-overflow:ellipsis;
+                                        ">
+                                        @item.Description
+                                    </div>
+                                </div>
+
+                            </div>
+                        </td>
+
+                        <!-- CATEGORY -->
+                        <td>
+                            <span style="
+                                background:#f3efe8;
+                                color:#5C524A;
+                                padding:5px 10px;
+                                border-radius:20px;
+                                font-size:11px;
+                                font-weight:600;
+                                ">
+                                @item.Category
+                            </span>
+                        </td>
+
+                        <!-- LOCATION -->
                         <td>@item.LocationFound</td>
+
+                        <!-- DATE -->
                         <td>@item.DateFound.ToString("MMM d, yyyy")</td>
-                        <td>@item.Status</td>
+
+                        <!-- STATUS -->
+                        <td>
+                            @if (item.Status == "Claimed")
+                            {
+                                <span class="status claimed">Claimed</span>
+                            }
+                            else
+                            {
+                                <span class="status unclaimed">Unclaimed</span>
+                            }
+                        </td>
+
                     </tr>
                 }
             </tbody>
         </table>
+
     </div>
 
 </div>
