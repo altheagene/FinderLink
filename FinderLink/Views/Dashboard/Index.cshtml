@@ -394,9 +394,13 @@
 
                         <!-- STATUS -->
                         <td>
-                            @if (item.Status == "Claimed")
+                            @if (item.DisplayStatus == "claimed")
                             {
                                 <span class="status claimed">Claimed</span>
+                            }
+                            else if (item.DisplayStatus == "pending")
+                            {
+                                <span class="status unclaimed">Pending</span>
                             }
                             else
                             {

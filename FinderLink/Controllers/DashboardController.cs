@@ -20,10 +20,25 @@ namespace FinderLink.Controllers
             }
 
             var allItems = await _itemService.GetAllItemsAsync();
+            string ResolveStatus(Models.Item item)
+            {
+                if (item.Claims.Any(c => c.Status == "released" || c.Status == "verified"))
+                {
+                    return "claimed";
+                }
+
+                if (item.Claims.Any(c => c.Status == "pending"))
+                {
+                    return "pending";
+                }
+
+                return item.Status;
+            }
+
             ViewBag.TotalItems = allItems.Count;
-            ViewBag.UnclaimedItems = allItems.Count(i => i.Status == "unclaimed");
-            ViewBag.ClaimedItems = allItems.Count(i => i.Status == "claimed");
-            ViewBag.PendingItems = allItems.Count(i => i.Status == "pending");
+            ViewBag.UnclaimedItems = allItems.Count(i => ResolveStatus(i) == "unclaimed");
+            ViewBag.ClaimedItems = allItems.Count(i => ResolveStatus(i) == "claimed");
+            ViewBag.PendingItems = allItems.Count(i => ResolveStatus(i) == "pending");
 
             var now = DateTime.UtcNow;
             var monthly = Enumerable.Range(0, 6)
@@ -31,7 +46,7 @@ namespace FinderLink.Controllers
                 {
                     var month = now.AddMonths(-offset);
                     var lost = allItems.Count(i => i.DateFound.Year == month.Year && i.DateFound.Month == month.Month);
-                    var claimed = allItems.Count(i => i.Status == "claimed" &&
+                    var claimed = allItems.Count(i => ResolveStatus(i) == "claimed" &&
                         i.Claims.Any(c => c.Status == "verified" && c.DateVerified.HasValue &&
                                           c.DateVerified.Value.Year == month.Year &&
                                           c.DateVerified.Value.Month == month.Month));
@@ -53,7 +68,20 @@ namespace FinderLink.Controllers
 
             ViewBag.MonthlyStats = monthly;
             ViewBag.CategoryStats = byCategory;
-            ViewBag.RecentItems = allItems.OrderByDescending(i => i.CreatedAt).Take(10).ToList();
+            ViewBag.RecentItems = allItems
+                .OrderByDescending(i => i.CreatedAt)
+                .Take(10)
+                .Select(i => new
+                {
+                    i.ImagePath,
+                    i.ItemName,
+                    i.Description,
+                    i.Category,
+                    i.LocationFound,
+                    i.DateFound,
+                    DisplayStatus = ResolveStatus(i)
+                })
+                .ToList();
             return View();
         }
     }
