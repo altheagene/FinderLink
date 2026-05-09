@@ -20,6 +20,18 @@
             @if (ViewData["HideSideBar"] as bool? ?? false)
             {
                 <div class="app-content app-content--full">
+                    @if (TempData["Success"] != null)
+                    {
+                        <div class="flash-wrap">
+                            <div class="alert alert-success mb-0" role="alert">@TempData["Success"]</div>
+                        </div>
+                    }
+                    @if (TempData["Error"] != null)
+                    {
+                        <div class="flash-wrap">
+                            <div class="alert alert-danger mb-0" role="alert">@TempData["Error"]</div>
+                        </div>
+                    }
                     @RenderBody()
                 </div>
             }
@@ -27,6 +39,18 @@
             {
                 <partial name="_Sidebar" />
                 <div class="app-content d-flex flex-column flex-grow-1">
+                    @if (TempData["Success"] != null)
+                    {
+                        <div class="flash-wrap">
+                            <div class="alert alert-success mb-0" role="alert">@TempData["Success"]</div>
+                        </div>
+                    }
+                    @if (TempData["Error"] != null)
+                    {
+                        <div class="flash-wrap">
+                            <div class="alert alert-danger mb-0" role="alert">@TempData["Error"]</div>
+                        </div>
+                    }
                     @RenderBody()
                 </div>
             }

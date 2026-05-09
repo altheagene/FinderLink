@@ -38,7 +38,6 @@
     /* ===== STAT CARDS ===== */
     .stat-card {
         background: white;
-        height: 60px;
         min-height: 140px;
         padding: 18px;
         border-radius: 14px;
@@ -46,6 +45,9 @@
         transition: 0.2s;
         box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
         font-family: 'Spline Sans Mono', monospace;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
 
         .stat-card:hover {
@@ -166,21 +168,23 @@
         <div class="col-md-6">
             <div class="card-dark">
                 <p>LOST VS CLAIMED - MONTHLY</p>
-                <table class="table table-borderless mt-2">
-                    <thead>
-                        <tr><th>MONTH</th><th>LOST</th><th>CLAIMED</th></tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var row in ViewBag.MonthlyStats)
-                        {
-                            <tr>
-                                <td>@row.Label</td>
-                                <td>@row.Lost</td>
-                                <td>@row.Claimed</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-borderless finder-table mt-2">
+                        <thead>
+                            <tr><th>MONTH</th><th>LOST</th><th>CLAIMED</th></tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var row in ViewBag.MonthlyStats)
+                            {
+                                <tr>
+                                    <td>@row.Label</td>
+                                    <td>@row.Lost</td>
+                                    <td>@row.Claimed</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -210,6 +214,12 @@
                     }
                 }
 
+                @if (total == 0)
+                {
+                    <div class="empty-state">No items to chart yet.</div>
+                }
+                else
+                {
                 <div class="d-flex flex-column gap-4">
 
                     @foreach (var row in ViewBag.CategoryStats)
@@ -274,6 +284,7 @@
                     }
 
                 </div>
+                }
 
             </div>
         </div>
@@ -301,7 +312,23 @@
             </a>
         </div>
 
-        <table class="table table-borderless align-middle mt-3">
+        @{
+            var hasRecentItems = false;
+            foreach (var _ in ViewBag.RecentItems)
+            {
+                hasRecentItems = true;
+                break;
+            }
+        }
+
+        @if (!hasRecentItems)
+        {
+            <div class="empty-state">No recent items yet.</div>
+        }
+        else
+        {
+        <div class="table-responsive">
+        <table class="table table-borderless finder-table align-middle mt-3">
             <thead>
                 <tr>
                     <th>ITEM</th>
@@ -412,6 +439,8 @@
                 }
             </tbody>
         </table>
+        </div>
+        }
 
     </div>
 
