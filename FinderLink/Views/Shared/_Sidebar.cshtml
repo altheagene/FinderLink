@@ -5,14 +5,41 @@
 
 <style>
     .sidebar-admin {
-        width: 260px;
-        height: 100vh;
+        width: var(--admin-sidebar-width);
+        min-height: 100vh;
         background: #2A2A2A;
-        color: #1a1a1a;
+        color: #ffffff;
         display: flex;
         flex-direction: column;
         padding: 24px;
         border-right: 1px solid #8b5cf6;
+    }
+
+    .admin-topbar {
+        position: sticky;
+        top: 0;
+        z-index: 1020;
+        background: #2A2A2A;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 10px 12px;
+    }
+
+    .admin-sidebar-offcanvas {
+        width: var(--admin-sidebar-width);
+        background: #2A2A2A;
+        border-right: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    @@media (max-width: 991.98px) {
+        .admin-sidebar-offcanvas {
+            width: var(--admin-sidebar-width-mobile);
+        }
+
+        .sidebar-admin {
+            min-height: auto;
+            height: auto;
+            border-right: none;
+        }
     }
 
     /* BRAND */
@@ -137,49 +164,82 @@
         opacity: 0.5;
     }
 </style>
-<aside class="sidebar-admin" style="width: 20%;">
-    <div class="d-flex gap-2 align-items-center">
-        <div class="brand-icon-wrap">
-            <i class="bi bi-geo-alt"></i>
+
+<div class="admin-topbar d-lg-none">
+    <div class="d-flex align-items-center justify-content-between">
+        <button class="btn btn-sm btn-outline-light"
+                type="button"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#adminSidebar"
+                aria-controls="adminSidebar">
+            <i class="bi bi-list"></i>
+        </button>
+
+        <div class="d-flex gap-2 align-items-center">
+            <div class="brand-icon-wrap" aria-hidden="true">
+                <i class="bi bi-geo-alt"></i>
+            </div>
+            <div class="brand-title" style="font-size: 1.1rem;">FinderLink</div>
         </div>
-        <div class="brand-title">FinderLink</div>
-       
+
+        <div style="width: 36px;"></div>
+    </div>
+</div>
+
+<div class="offcanvas-lg offcanvas-start text-bg-dark admin-sidebar-offcanvas"
+     tabindex="-1"
+     id="adminSidebar"
+     aria-labelledby="adminSidebarLabel">
+    <div class="offcanvas-header d-lg-none">
+        <h5 class="offcanvas-title" id="adminSidebarLabel">Menu</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
 
-    <div class="sidebar-section">
-        <small class="section-title">MAIN</small>
-        <nav class="sidebar-nav">
-            <a href="/dashboard/index" class="nav-item @(controller == "Dashboard" && action == "Index" ? "active" : "")">
-                <i class="bi bi-speedometer2"></i> Dashboard
-            </a>
+    <div class="offcanvas-body p-0">
+        <aside class="sidebar-admin">
+            <div class="d-flex gap-2 align-items-center">
+                <div class="brand-icon-wrap">
+                    <i class="bi bi-geo-alt"></i>
+                </div>
+                <div class="brand-title">FinderLink</div>
+            </div>
 
-            <a href="/manageitems/index" class="nav-item @(controller == "ManageItems" && action == "Index" ? "active" : "")">
-                <i class="bi bi-box-seam"></i> Manage Items
-            </a>
+            <div class="sidebar-section">
+                <small class="section-title">MAIN</small>
+                <nav class="sidebar-nav">
+                    <a href="/dashboard/index" class="nav-item @(controller == "Dashboard" && action == "Index" ? "active" : "")">
+                        <i class="bi bi-speedometer2"></i> Dashboard
+                    </a>
 
-            <a href="/reportloss/index" class="nav-item @(controller == "ReportLoss" && action == "Index" ? "active" : "")">
-                <i class="bi bi-exclamation-triangle"></i> Report Loss
-            </a>
+                    <a href="/manageitems/index" class="nav-item @(controller == "ManageItems" && action == "Index" ? "active" : "")">
+                        <i class="bi bi-box-seam"></i> Manage Items
+                    </a>
 
-            <a href="/userclaims/index" class="nav-item @(controller == "UserClaims" && action == "Index" ? "active" : "")">
-                <i class="bi bi-person-check"></i> User Claims
-            </a>
-        </nav>
+                    <a href="/reportloss/index" class="nav-item @(controller == "ReportLoss" && action == "Index" ? "active" : "")">
+                        <i class="bi bi-exclamation-triangle"></i> Report Loss
+                    </a>
+
+                    <a href="/userclaims/index" class="nav-item @(controller == "UserClaims" && action == "Index" ? "active" : "")">
+                        <i class="bi bi-person-check"></i> User Claims
+                    </a>
+                </nav>
+            </div>
+
+            <div class="sidebar-section">
+                <small class="section-title">MANAGEMENT</small>
+                <nav class="sidebar-nav">
+                    <a href="/settings/index" class="nav-item @(controller == "Settings" && action == "Index" ? "active" : "")">
+                        <i class="bi bi-gear"></i> Settings
+                    </a>
+                </nav>
+            </div>
+
+            <div class="sidebar-footer">
+                <a href="/login/logout" class="logout-btn">
+                    <i class="bi bi-box-arrow-right"></i> Logout
+                </a>
+                <small>Admin access only</small>
+            </div>
+        </aside>
     </div>
-
-    <div class="sidebar-section">
-        <small class="section-title">MANAGEMENT</small>
-        <nav class="sidebar-nav">
-            <a href="/settings/index" class="nav-item @(controller == "Settings" && action == "Index" ? "active" : "")">
-                <i class="bi bi-gear"></i> Settings
-            </a>
-        </nav>
-    </div>
-
-    <div class="sidebar-footer">
-        <a href="/login/logout" class="logout-btn">
-            <i class="bi bi-box-arrow-right"></i> Logout
-        </a>
-        <small>Admin access only</small>
-    </div>
-</aside>
+</div>

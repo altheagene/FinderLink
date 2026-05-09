@@ -22,6 +22,29 @@ body {
     font-family: 'Plus Jakarta Sans', sans-serif
 }
 
+:root {
+    --admin-sidebar-width: 280px;
+    --admin-sidebar-width-mobile: min(86vw, 340px);
+}
+
+/* App shell: sidebar + main content */
+.app-shell {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+}
+
+.app-content {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.app-content--full {
+    width: 100%;
+}
+
 a {
     text-decoration: none;
     cursor: pointer;
@@ -63,6 +86,16 @@ label {
     color: #5C524A;
     font-weight: 500;
     font-family: 'Spline Sans Mono', monospace
+}
+
+@media (max-width: 991.98px) {
+    .app-shell {
+        flex-direction: column;
+    }
+
+    .app-content {
+        overflow: visible;
+    }
 }
 
 /* MODAL BASE (shared style for FinderLink) */
