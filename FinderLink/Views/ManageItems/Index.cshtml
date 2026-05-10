@@ -154,16 +154,16 @@
 
     <div class="card-dark mt-4">
 
-        <form class="row g-2 align-items-end mb-4" method="get">
+        <form class="row g-2 align-items-end mb-4" method="get" id="filterForm">
             <div class="col-12 col-lg-6">
                 <div class="position-relative" style="width: 100%;">
                     <i class="bi bi-search position-absolute" style="top: 0.55rem; left: 0.8rem"></i>
-                    <input name="search" value="@ViewBag.Search" placeholder="Search items..." style="width: 100%; border-radius: 20px; padding-left: 2.3rem;" />
+                    <input name="search" value="@ViewBag.Search" placeholder="Search items..." style="width: 100%; border-radius: 20px; padding-left: 2.3rem;" onchange="this.form.submit()" />
                 </div>
             </div>
 
             <div class="col-12 col-md-6 col-lg-3">
-                <select class="rounded-4 px-3 w-100" name="category">
+                <select class="rounded-4 px-3 w-100" name="category" onchange="this.form.submit()">
                     <option value="">All Categories</option>
                     @foreach (var c in (string[])ViewBag.Categories)
                     {
@@ -180,7 +180,7 @@
             </div>
 
             <div class="col-12 col-md-6 col-lg-3">
-                <select class="rounded-4 px-3 w-100" name="location">
+                <select class="rounded-4 px-3 w-100" name="location" onchange="this.form.submit()">
                     <option value="">All Locations</option>
                     @foreach (var l in (string[])ViewBag.Locations)
                     {
@@ -194,10 +194,6 @@
                         }
                     }
                 </select>
-            </div>
-
-            <div class="col-12">
-                <button class="btn btn-dark rounded-4 px-3" type="submit">Apply</button>
             </div>
         </form>
 

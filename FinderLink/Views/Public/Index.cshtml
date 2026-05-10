@@ -353,7 +353,7 @@
         <div class="search-div mb-4">
             <p>LOST SOMETHING?</p>
             <h3 class="fw-bold text-light">Search found items</h3>
-            <form method="get" class="search-row">
+            <form method="get" class="search-row" id="publicSearchForm">
                 <input class="search-bar" name="search" value="@ViewBag.Search" placeholder="Search items..." />
                 <select class="filter-select" name="category">
                     <option value="">ALL CATEGORIES</option>
@@ -387,70 +387,72 @@
             </form>
         </div>
 
-        <!-- RESULTS META -->
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <span class="results-meta">Showing @Model.Count of @ViewBag.TotalUnclaimed unclaimed items</span>
-            <span class="results-meta">Sorted by newest</span>
-        </div>
+        <div id="publicResults">
+            <!-- RESULTS META -->
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="results-meta">Showing @Model.Count of @ViewBag.TotalUnclaimed unclaimed items</span>
+                <span class="results-meta">Sorted by newest</span>
+            </div>
 
-        <!-- CARDS GRID -->
-        <div class="row g-3">
-            @foreach (var item in Model)
-            {
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="item-card h-100">
+            <!-- CARDS GRID -->
+            <div class="row g-3">
+                @foreach (var item in Model)
+                {
+                    <div class="col-12 col-sm-6 col-lg-4">
+                        <div class="item-card h-100">
 
-                        <!-- IMAGE -->
-                        
-                            <img src="@item.ImagePath"
-                                 class="item-card-img"
-                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-                            <div class="item-card-img-placeholder" style="display:none;">
-                                <i class="bi bi-image"></i>
+                            <!-- IMAGE -->
+
+                                <img src="@item.ImagePath"
+                                     class="item-card-img"
+                                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+                                <div class="item-card-img-placeholder" style="display:none;">
+                                    <i class="bi bi-image"></i>
+                                </div>
+
+                            @*     <div class="item-card-img-placeholder">
+                                    <i class="bi bi-image"></i>
+                                </div>
+                             *@
+
+                            <!-- BODY -->
+                            <div class="item-card-body">
+
+                                <!-- TITLE + BADGE -->
+                                <div class="item-card-title-row">
+                                    <h6 class="item-card-title">@item.ItemName</h6>
+                                    <span class="category-badge">@item.Category</span>
+                                </div>
+
+                                <!-- DESCRIPTION -->
+                                <p class="item-card-desc">@item.Description</p>
+
+                                <!-- LOCATION + DATE -->
+                                <div class="item-card-meta">
+                                    <span>
+                                        <i class="bi bi-geo-alt"></i>
+                                        @item.LocationFound
+                                    </span>
+                                    <span>
+                                        <i class="bi bi-calendar3"></i>
+                                        @item.DateFound.ToString("MMM d, yyyy")
+                                    </span>
+                                </div>
+
+                                <!-- CLAIM BUTTON -->
+                            <button class="claim-btn"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#claimModal"
+                                    data-item-id="@item.ItemId"
+                                    data-item-image="@item.ImagePath">
+                                Claim this item
+                            </button>
+
                             </div>
-                      
-                        @*     <div class="item-card-img-placeholder">
-                                <i class="bi bi-image"></i>
-                            </div>
-                         *@
-
-                        <!-- BODY -->
-                        <div class="item-card-body">
-
-                            <!-- TITLE + BADGE -->
-                            <div class="item-card-title-row">
-                                <h6 class="item-card-title">@item.ItemName</h6>
-                                <span class="category-badge">@item.Category</span>
-                            </div>
-
-                            <!-- DESCRIPTION -->
-                            <p class="item-card-desc">@item.Description</p>
-
-                            <!-- LOCATION + DATE -->
-                            <div class="item-card-meta">
-                                <span>
-                                    <i class="bi bi-geo-alt"></i>
-                                    @item.LocationFound
-                                </span>
-                                <span>
-                                    <i class="bi bi-calendar3"></i>
-                                    @item.DateFound.ToString("MMM d, yyyy")
-                                </span>
-                            </div>
-
-                            <!-- CLAIM BUTTON -->
-                        <button class="claim-btn"
-                                data-bs-toggle="modal"
-                                data-bs-target="#claimModal"
-                                data-item-id="@item.ItemId"
-                                data-item-image="@item.ImagePath">
-                            Claim this item
-                        </button>
-
                         </div>
                     </div>
-                </div>
-            }
+                }
+            </div>
         </div>
 
     </div>
@@ -509,21 +511,3 @@
     </div>
 </div>
 
-@section Scripts {
-    <script>
-        document.addEventListener("click", function (e) {
-            var button = e.target.closest(".claim-btn");
-            if (!button) return;
-            var itemIdInput = document.getElementById("claimItemId");
-            var itemImage = document.getElementById("claimModalImage");
-            if (itemIdInput) {
-                itemIdInput.value = button.getAttribute("data-item-id");
-            }
-            if (itemImage) {
-                var imagePath = button.getAttribute("data-item-image");
-                itemImage.src = imagePath || "";
-                itemImage.style.display = imagePath ? "block" : "none";
-            }
-        });
-    </script>
-}
