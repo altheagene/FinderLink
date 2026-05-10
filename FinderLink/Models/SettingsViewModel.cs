@@ -19,5 +19,7 @@ namespace FinderLink.Models
         public string? CurrentPassword { get; set; }
         public string? NewPassword { get; set; }
         public string? ConfirmPassword { get; set; }
+        public List<Location> Locations { get; set; } = new();
+        public List<Category> Categories { get; set; } = new();
     }
 }

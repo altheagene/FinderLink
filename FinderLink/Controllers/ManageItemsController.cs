@@ -8,11 +8,15 @@ namespace FinderLink.Controllers
     {
         private readonly IItemService _itemService;
         private readonly IWebHostEnvironment _environment;
+        private readonly ILocationService _locationService;
+        private readonly ICategoryService _categoryService;
 
-        public ManageItemsController(IItemService itemService, IWebHostEnvironment environment)
+        public ManageItemsController(IItemService itemService, IWebHostEnvironment environment, ILocationService locationService, ICategoryService categoryService)
         {
             _itemService = itemService;
             _environment = environment;
+            _locationService = locationService;
+            _categoryService = categoryService;
         }
 
         [HttpGet]
@@ -44,8 +48,10 @@ namespace FinderLink.Controllers
                 items = items.Where(i => i.LocationFound.Equals(location, StringComparison.OrdinalIgnoreCase)).ToList();
             }
 
-            ViewBag.Categories = Models.LookupData.Categories;
-            ViewBag.Locations = Models.LookupData.Locations;
+            //ViewBag.Categories = Models.LookupData.Categories;
+            //ViewBag.Locations = Models.LookupData.Locations;
+            ViewBag.Locations = await _locationService.GetAllAsync();
+            ViewBag.Categories = await _categoryService.GetAllAsync();
             ViewBag.Search = search;
             ViewBag.SelectedCategory = category;
             ViewBag.SelectedLocation = location;
