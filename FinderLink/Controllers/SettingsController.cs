@@ -72,7 +72,7 @@ namespace FinderLink.Controllers
             admin.Username = model.Username;
             await _adminService.UpdateAdminAsync(admin);
             TempData["SettingsMessage"] = "Profile updated successfully.";
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { tab = "profile" });
         }
 
         [HttpPost]
@@ -111,7 +111,7 @@ namespace FinderLink.Controllers
             admin.Password = model.NewPassword;
             await _adminService.UpdateAdminAsync(admin);
             TempData["SettingsMessage"] = "Password updated successfully.";
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { tab = "security" });
         }
 
         [HttpPost]

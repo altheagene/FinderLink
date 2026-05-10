@@ -197,6 +197,50 @@
         <p>Manage your account settings</p>
     </div>
 
+    @if (TempData["SettingsMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show mt-3"
+             role="alert"
+             style="
+            border:none;
+            border-radius:14px;
+            background:#eaf3de;
+            color:#3b6d11;
+            font-size:14px;
+            ">
+
+            <i class="bi bi-check-circle me-2"></i>
+            @TempData["SettingsMessage"]
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+            </button>
+        </div>
+    }
+
+    @if (TempData["SettingsError"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show mt-3"
+             role="alert"
+             style="
+            border:none;
+            border-radius:14px;
+            background:#fde8e8;
+            color:#b42318;
+            font-size:14px;
+            ">
+
+            <i class="bi bi-exclamation-circle me-2"></i>
+            @TempData["SettingsError"]
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+            </button>
+        </div>
+    }
+
     <!-- TABS -->
     <div class="settings-tabs">
         <button class="tab-btn @(ViewBag.ActiveTab == "profile" ? "active" : "")" data-tab="profile">Profile</button>
