@@ -5,12 +5,13 @@
 @{
 }
 <style>
-    .stat-card p {
+    .stat-card .stat-label {
         font-size: 12px;
         margin-bottom: 5px;
         color: #5C524A;
         opacity: 70%;
         font-weight: 600;
+        display: block;
     }
 
     .stat-card h3 {
@@ -188,7 +189,7 @@
 
         <div class="col-md-4">
             <div class="stat-card" style="background-color: white">
-                <p>PENDING</p>
+                <span class="stat-label">PENDING</span>
                 <div class="d-flex align-items-center gap-3">
                     <div class="icon-wrapper" style="background-color: #FDF9C4">
                         <i class="bi bi-clock" style="color: #b8a900;"></i>
@@ -202,7 +203,7 @@
 
         <div class="col-md-4">
             <div class="stat-card" style="background-color: white">
-                <p>VERIFIED</p>
+                <span class="stat-label">VERIFIED</span>
                 <div class="d-flex align-items-center gap-3">
                     <div class="icon-wrapper" style="background-color: #DFF0C8">
                         <i class="bi bi-check-circle" style="color: #4a7a1e"></i>
@@ -215,7 +216,7 @@
 
         <div class="col-md-4">
             <div class="stat-card" style="background-color: white;">
-                <p>REJECTED</p>
+                <span class="stat-label">REJECTED</span>
                 <div class="d-flex align-items-center gap-3">
                     <div class="icon-wrapper" style="background-color: #FDE8F1;">
                         <i class="bi bi-x-circle" style="color: #c85a88"></i>

@@ -24,7 +24,7 @@ body {
 
 :root {
     --admin-sidebar-width: 280px;
-    --admin-sidebar-width-mobile: min(86vw, 340px);
+    --admin-sidebar-width-mobile: min(78vw, 300px);
 }
 
 /* App shell: sidebar + main content */
