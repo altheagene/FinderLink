@@ -6,11 +6,14 @@ namespace FinderLink.Controllers
     public class UserClaimsController : Controller
     {
         private readonly IClaimService _claimService;
+        private readonly IItemService _itemService;
 
-        public UserClaimsController(IClaimService claimService)
+        public UserClaimsController(IClaimService claimService, IItemService itemService)
         {
             _claimService = claimService;
+            _itemService = itemService;
         }
+
 
         [HttpGet]
         public async Task<IActionResult> Index(string? search, string? status = null)
@@ -68,7 +71,25 @@ namespace FinderLink.Controllers
                 return RedirectToAction("Index", "Login");
             }
 
+            var claim = await _claimService.GetClaimByIdAsync(id);
+
+            if (claim == null)
+            {
+                return NotFound();
+            }
+
+            // reject claim
             await _claimService.RejectClaimAsync(id);
+
+            // get item
+            var item = await _itemService.GetItemByIdAsync(claim.ItemId);
+
+            if (item != null)
+            {
+                item.Status = "unclaimed";
+                await _itemService.UpdateItemAsync(item);
+            }
+
             return RedirectToAction(nameof(Index));
         }
     }
