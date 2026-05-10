@@ -152,47 +152,63 @@
         <p>View and manage all lost and found items</p>
     </div>
 
-    <div class="card-dark mt-4 pb-5S">
-       
-        <form class="d-flex gap-3 align-items-center mb-5" method="get">
-            <div class="position-relative mr-4" style="width: 100%; max-width: 500px;">
-                <i class="bi bi-search position-absolute" style="top: 0.4rem; left: 0.7rem"></i>
-                <input name="search" value="@ViewBag.Search" placeholder="Search items..." style="width: 100%; border-radius: 20px; padding-left: 2.3rem;" />
+    <div class="card-dark mt-4">
+
+        <form class="row g-2 align-items-end mb-4" method="get">
+            <div class="col-12 col-lg-6">
+                <div class="position-relative" style="width: 100%;">
+                    <i class="bi bi-search position-absolute" style="top: 0.55rem; left: 0.8rem"></i>
+                    <input name="search" value="@ViewBag.Search" placeholder="Search items..." style="width: 100%; border-radius: 20px; padding-left: 2.3rem;" />
+                </div>
             </div>
 
-            <select class="rounded-4 px-3" name="category">
-                <option value="">All Categories</option>
-                @foreach (var c in (string[])ViewBag.Categories)
-                {
-                    if ((string?)ViewBag.SelectedCategory == c)
+            <div class="col-12 col-md-6 col-lg-3">
+                <select class="rounded-4 px-3 w-100" name="category">
+                    <option value="">All Categories</option>
+                    @foreach (var c in (string[])ViewBag.Categories)
                     {
-                        <option value="@c" selected>@c</option>
+                        if ((string?)ViewBag.SelectedCategory == c)
+                        {
+                            <option value="@c" selected>@c</option>
+                        }
+                        else
+                        {
+                            <option value="@c">@c</option>
+                        }
                     }
-                    else
-                    {
-                        <option value="@c">@c</option>
-                    }
-                }
-            </select>
+                </select>
+            </div>
 
-            <select class="rounded-4 px-3" name="location">
-                <option value="">All Locations</option>
-                @foreach (var l in (string[])ViewBag.Locations)
-                {
-                    if ((string?)ViewBag.SelectedLocation == l)
+            <div class="col-12 col-md-6 col-lg-3">
+                <select class="rounded-4 px-3 w-100" name="location">
+                    <option value="">All Locations</option>
+                    @foreach (var l in (string[])ViewBag.Locations)
                     {
-                        <option value="@l" selected>@l</option>
+                        if ((string?)ViewBag.SelectedLocation == l)
+                        {
+                            <option value="@l" selected>@l</option>
+                        }
+                        else
+                        {
+                            <option value="@l">@l</option>
+                        }
                     }
-                    else
-                    {
-                        <option value="@l">@l</option>
-                    }
-                }
-            </select>
-            <button class="btn btn-dark rounded-4 px-3" type="submit">Apply</button>
+                </select>
+            </div>
+
+            <div class="col-12">
+                <button class="btn btn-dark rounded-4 px-3" type="submit">Apply</button>
+            </div>
         </form>
 
-        <table class="table table-borderless mt-3">
+        @if (Model == null || !Model.Any())
+        {
+            <div class="empty-state">No items found.</div>
+        }
+        else
+        {
+        <div class="table-responsive">
+        <table class="table table-borderless finder-table mt-3">
             <thead>
                 <tr>
                     <th>ITEM</th>
@@ -211,12 +227,21 @@
                         <div class="item-wrap">
                                 @if (!string.IsNullOrEmpty(item.ImagePath))
                                 {
-                                    <img class="item-img" src="@item.ImagePath" alt="@item.ItemName" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />    <div class="item-img d-none align-items-center justify-content-center" style="display:none; background:#f0ebe3; color:#9c8e82;">        <i class="bi bi-image"></i>    </div>
+                                    <img class="item-img"
+                                         src="@item.ImagePath"
+                                         alt="@item.ItemName"
+                                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+                                    <div class="item-img d-none align-items-center justify-content-center"
+                                         style="display:none; background:#f0ebe3; color:#9c8e82;">
+                                        <i class="bi bi-image"></i>
+                                    </div>
                                 }
                                 else
                                 {
-
-                                    <div class="item-img d-flex align-items-center justify-content-center" style="background:#f0ebe3; color:#9c8e82;">        <i class="bi bi-image"></i>    </div>
+                                    <div class="item-img d-flex align-items-center justify-content-center"
+                                         style="background:#f0ebe3; color:#9c8e82;">
+                                        <i class="bi bi-image"></i>
+                                    </div>
                                 }
                             <div>
                                 <div class="item-name">@item.ItemName</div>
@@ -297,6 +322,7 @@
             </tbody>
         </table>
     </div>
+        }
 </div>
 
 @section Scripts {

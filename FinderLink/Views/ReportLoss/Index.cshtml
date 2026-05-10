@@ -1,24 +1,8 @@
 ﻿@model FinderLink.Models.ReportLossViewModel
 <style>
     .card-dark {
-        background: #FFFEFC;
         border-radius: 16px;
         padding: 2.2rem;
-        border: 1px solid #ece9f5;
-    }
-
-    .card-dark p {
-        font-size: 0.8rem;
-        font-weight: 500;
-        margin-bottom: 10px;
-        padding-bottom: 8px;
-        border-bottom: 1px solid #eee;
-        font-family: 'Spline Sans Mono', monospace;
-        color: #9c8e82;
-    }
-
-    form {
-        gap: 1.8rem;
     }
 
     .input-div {
@@ -44,16 +28,9 @@
         font-size: 14px;
         outline: none;
         transition: 0.2s ease;
+        max-width: 100%;
+        box-sizing: border-box;
     }
-
-        input:focus, select:focus, textarea:focus {
-            border-color: #e8d84f;
-            box-shadow: 0 0 0 2px rgba(232, 216, 79, 0.2);
-        }
-
-        input::placeholder {
-            color: #b0a79f;
-        }
 
     /* FILE UPLOAD */
     .file-upload {
@@ -66,6 +43,30 @@
         cursor: pointer;
         position: relative;
         transition: 0.2s;
+    }
+
+    .file-preview {
+        display: none;
+        margin-top: 10px;
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid #ece9f5;
+        background: #FFFEFC;
+    }
+
+    .file-preview img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        display: block;
+    }
+
+    .file-preview .file-preview-meta {
+        padding: 10px 12px;
+        font-size: 12px;
+        color: #5C524A;
+        font-family: 'Spline Sans Mono', monospace;
+        border-top: 1px solid #eee;
     }
 
         .file-upload:hover {
@@ -96,15 +97,9 @@
     }
 
     .btn-submit {
-        background: #2a2a2a;
-        color: white;
-        border-radius: 20px;
-        padding: 0.5rem 1rem;
-        font-weight: 600;
-        display: flex;
+        display: inline-flex;
         align-items: center;
         gap: 6px;
-        border: none;
     }
 
         .btn-submit:hover {
@@ -183,22 +178,29 @@
         <p>Log a newly found item into the system</p>
     </div>
 
-    <div class="row gx-6">
-        <div class="card-dark col-8">
+    <div class="row g-4">
+        <div class="col-12 col-lg-8">
+            <div class="card-dark">
             <div class="mb-4">
                 <h6 class="fw-bold">New Item Report</h6>
             </div>
 
-            <form class="d-flex flex-column" method="post" enctype="multipart/form-data">
+            <form id="reportLossForm" class="d-flex flex-column gap-4" method="post" enctype="multipart/form-data">
                 @Html.AntiForgeryToken()
 
-                <div class="d-flex gap-4">
-                    <div class="input-div flex-grow-1">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="row g-3">
+                    <div class="col-12 col-md-6">
+                        <div class="input-div">
                         <label>ITEM NAME <span>*</span></label>
                         <input asp-for="ItemName" placeholder="Enter item name" />
+                        <span asp-validation-for="ItemName" class="text-danger"></span>
+                        </div>
                     </div>
 
-                    <div class="input-div flex-grow-1">
+                    <div class="col-12 col-md-6">
+                        <div class="input-div">
                         <label>ITEM CATEGORY <span>*</span></label>
                         <select asp-for="Category">
                             <option value="">Select Category</option>
@@ -207,16 +209,20 @@
                                 <option value="@category">@category</option>
                             }
                         </select>
+                        <span asp-validation-for="Category" class="text-danger"></span>
+                        </div>
                     </div>
                 </div>
 
                 <div class="input-div">
                     <label>ITEM DESCRIPTION <span>*</span></label>
                     <textarea asp-for="Description" rows="4" placeholder="Describe the item..."></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
 
-                <div class="d-flex gap-4">
-                    <div class="input-div flex-grow-1">
+                <div class="row g-3">
+                    <div class="col-12 col-md-6">
+                        <div class="input-div">
                         <label>LOCATION FOUND <span>*</span></label>
                         <select asp-for="LocationFound">
                             <option value="">Select Location</option>
@@ -225,23 +231,34 @@
                                 <option value="@location">@location</option>
                             }
                         </select>
+                        <span asp-validation-for="LocationFound" class="text-danger"></span>
+                        </div>
                     </div>
 
-                    <div class="input-div flex-grow-1">
+                    <div class="col-12 col-md-6">
+                        <div class="input-div">
                         <label>DATE FOUND <span>*</span></label>
                         <input asp-for="DateFound" type="date" />
+                        <span asp-validation-for="DateFound" class="text-danger"></span>
+                        </div>
                     </div>
                 </div>
 
-                <div class="d-flex gap-4">
-                    <div class="input-div flex-grow-1">
+                <div class="row g-3">
+                    <div class="col-12 col-md-6">
+                        <div class="input-div">
                         <label>FOUND BY <span>*</span></label>
                         <input asp-for="FoundByName" placeholder="Enter name" />
+                        <span asp-validation-for="FoundByName" class="text-danger"></span>
+                        </div>
                     </div>
 
-                    <div class="input-div flex-grow-1">
+                    <div class="col-12 col-md-6">
+                        <div class="input-div">
                         <label>CONTACT <span>*</span></label>
                         <input asp-for="FoundByContact" type="text" placeholder="Enter contact info" />
+                        <span asp-validation-for="FoundByContact" class="text-danger"></span>
+                        </div>
                     </div>
                 </div>
 
@@ -250,35 +267,107 @@
                     <div class="file-upload">
                         <i class="bi bi-upload"></i><br />
                         <span>Click to upload or drag image</span>
-                        <input asp-for="ItemPhoto" type="file" accept="image/*" />
+                        <input id="itemPhotoInput" asp-for="ItemPhoto" type="file" accept="image/*" />
+                    </div>
+                    <span asp-validation-for="ItemPhoto" class="text-danger"></span>
+
+                    <div id="filePreview" class="file-preview">
+                        <img id="filePreviewImg" alt="Selected item photo preview" />
+                        <div id="filePreviewMeta" class="file-preview-meta"></div>
                     </div>
                 </div>
 
                 <div class="d-flex justify-content-end gap-3 mt-3">
                     <button type="reset" class="btn-clear">Clear Form</button>
-                    <button class="btn-submit">
-                        <i class="bi bi-check-lg"></i> Submit Report
+                    <button id="submitBtn" type="submit" class="btn-submit">
+                        <span id="submitIcon" class="bi bi-check-lg" aria-hidden="true"></span>
+                        <span id="submitText">Submit Report</span>
                     </button>
                 </div>
 
             </form>
+            </div>
         </div>
 
-        <div class="col-4">
-            <p class="fw-semibold" style="font-size: 0.8rem;font-family: 'Spline Sans Mono', monospace; color: #5C524A;">RECENT ITEM REPORTS</p>
+        <div class="col-12 col-lg-4">
+            <div class="card-dark recent-card">
+                <p class="fw-semibold" style="font-size: 0.8rem;font-family: 'Spline Sans Mono', monospace; color: #5C524A;">RECENT ITEM REPORTS</p>
 
-            <div class="recent-list">
-                @foreach (var item in (List<FinderLink.Models.Item>)ViewBag.RecentItems)
+                @{
+                    var recentItems = (List<FinderLink.Models.Item>)ViewBag.RecentItems;
+                }
+
+                @if (recentItems == null || recentItems.Count == 0)
                 {
-                    <div class="recent-item">
-                        <img class="recent-img" src="@item.ImagePath" />
-                        <div class="recent-info">
-                            <div class="recent-name">@item.ItemName</div>
-                            <div class="recent-desc">@item.Description</div>
-                        </div>
+                    <div class="empty-state">No recent reports yet.</div>
+                }
+                else
+                {
+                    <div class="recent-list">
+                        @foreach (var item in recentItems)
+                        {
+                            <div class="recent-item">
+                                <img class="recent-img" src="@item.ImagePath" />
+                                <div class="recent-info">
+                                    <div class="recent-name">@item.ItemName</div>
+                                    <div class="recent-desc">@item.Description</div>
+                                </div>
+                            </div>
+                        }
                     </div>
                 }
             </div>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        (function () {
+            const form = document.getElementById('reportLossForm');
+            const submitBtn = document.getElementById('submitBtn');
+            const submitText = document.getElementById('submitText');
+            const submitIcon = document.getElementById('submitIcon');
+
+            const fileInput = document.getElementById('itemPhotoInput');
+            const previewWrap = document.getElementById('filePreview');
+            const previewImg = document.getElementById('filePreviewImg');
+            const previewMeta = document.getElementById('filePreviewMeta');
+
+            function isFormValid() {
+                if (window.jQuery && window.jQuery(form) && window.jQuery(form).data('validator')) {
+                    return window.jQuery(form).valid();
+                }
+                return form.checkValidity();
+            }
+
+            form.addEventListener('submit', function (e) {
+                if (!isFormValid()) {
+                    return;
+                }
+
+                submitBtn.disabled = true;
+                submitIcon.className = 'spinner-border spinner-border-sm';
+                submitIcon.setAttribute('role', 'status');
+                submitIcon.setAttribute('aria-hidden', 'true');
+                submitText.textContent = 'Submitting...';
+            });
+
+            fileInput.addEventListener('change', function () {
+                const file = fileInput.files && fileInput.files[0];
+                if (!file) {
+                    previewWrap.style.display = 'none';
+                    previewImg.removeAttribute('src');
+                    previewMeta.textContent = '';
+                    return;
+                }
+
+                const url = URL.createObjectURL(file);
+                previewImg.src = url;
+                previewMeta.textContent = file.name;
+                previewWrap.style.display = 'block';
+            });
+        })();
+    </script>
+}

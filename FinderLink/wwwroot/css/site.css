@@ -22,6 +22,117 @@ body {
     font-family: 'Plus Jakarta Sans', sans-serif
 }
 
+:root {
+    --admin-sidebar-width: 280px;
+    --admin-sidebar-width-mobile: min(86vw, 340px);
+}
+
+/* App shell: sidebar + main content */
+.app-shell {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+}
+
+.app-content {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.app-content--full {
+    width: 100%;
+}
+
+/* Shared surfaces */
+.card-dark {
+    background: #FFFEFC;
+    border-radius: 14px;
+    padding: 20px;
+    border: 1px solid #ece9f5;
+}
+
+.card-dark > p {
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #eee;
+    font-family: 'Spline Sans Mono', monospace;
+    color: #9c8e82;
+}
+
+.stat-card {
+    background: #ffffff;
+    min-height: 140px;
+    padding: 18px;
+    border-radius: 14px;
+    border: 1px solid #ece9f5;
+    transition: 0.2s;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    font-family: 'Spline Sans Mono', monospace;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(124, 58, 237, 0.1);
+}
+
+/* Shared tables (opt-in) */
+.table.finder-table {
+    background: transparent !important;
+    color: #1e1b2e;
+}
+
+.table.finder-table th {
+    font-size: 12px;
+    color: rgba(92, 82, 74, 0.8);
+    font-family: 'Spline Sans Mono', monospace;
+}
+
+.table.finder-table td {
+    font-size: 14px;
+    border-top: 1px solid #eee;
+}
+
+.table.finder-table tbody tr {
+    transition: 0.2s ease;
+}
+
+.table.finder-table tbody tr:hover {
+    background: rgba(0, 0, 0, 0.03);
+}
+
+/* Flash messages (TempData) */
+.flash-wrap {
+    padding: 12px 16px 0;
+}
+
+/* Validation text */
+.field-validation-error,
+.validation-summary-errors {
+    font-size: 12px;
+}
+
+/* Empty state */
+.empty-state {
+    background: rgba(0, 0, 0, 0.02);
+    border: 1px dashed rgba(92, 82, 74, 0.33);
+    border-radius: 14px;
+    padding: 18px;
+    color: #5C524A;
+    font-family: 'Spline Sans Mono', monospace;
+    font-size: 13px;
+}
+
+/* Admin sidebar offcanvas sizing (kept in global CSS to avoid Razor @@media pitfalls) */
+@media (max-width: 991.98px) {
+    .admin-sidebar-offcanvas {
+        width: var(--admin-sidebar-width-mobile);
+    }
+}
+
 a {
     text-decoration: none;
     cursor: pointer;
@@ -63,6 +174,16 @@ label {
     color: #5C524A;
     font-weight: 500;
     font-family: 'Spline Sans Mono', monospace
+}
+
+@media (max-width: 991.98px) {
+    .app-shell {
+        flex-direction: column;
+    }
+
+    .app-content {
+        overflow: visible;
+    }
 }
 
 /* MODAL BASE (shared style for FinderLink) */

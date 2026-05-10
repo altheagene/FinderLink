@@ -14,23 +14,47 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Spline+Sans+Mono:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="w-100">
-        <main role="main" class="d-flex flex-lg-row flex-column h-100 w-100">
-            
-            @if(ViewData["HideSideBar"] as bool? ??  false) 
+    <div class="w-100 p-0 m-0 min-vh-100 d-flex flex-column">
+        <main role="main" class="app-shell flex-grow-1">
+
+            @if (ViewData["HideSideBar"] as bool? ?? false)
             {
-                
-                @RenderBody()
-                               
-            }else{
-                
-                <partial name="_Sidebar" />
-                <div class=" overflow-auto" style="width: 80%; height: 100vh; overflow-y: auto;">
+                <div class="app-content app-content--full">
+                    @if (TempData["Success"] != null)
+                    {
+                        <div class="flash-wrap">
+                            <div class="alert alert-success mb-0" role="alert">@TempData["Success"]</div>
+                        </div>
+                    }
+                    @if (TempData["Error"] != null)
+                    {
+                        <div class="flash-wrap">
+                            <div class="alert alert-danger mb-0" role="alert">@TempData["Error"]</div>
+                        </div>
+                    }
                     @RenderBody()
                 </div>
-                             
             }
-                
+            else
+            {
+                <partial name="_Sidebar" />
+                <div class="app-content d-flex flex-column flex-grow-1">
+                    @if (TempData["Success"] != null)
+                    {
+                        <div class="flash-wrap">
+                            <div class="alert alert-success mb-0" role="alert">@TempData["Success"]</div>
+                        </div>
+                    }
+                    @if (TempData["Error"] != null)
+                    {
+                        <div class="flash-wrap">
+                            <div class="alert alert-danger mb-0" role="alert">@TempData["Error"]</div>
+                        </div>
+                    }
+                    @RenderBody()
+                </div>
+            }
+
         </main>
     </div>
 
