@@ -15,6 +15,8 @@ namespace FinderLink.Data
         public DbSet<Claim> Claims { get; set; }
         public DbSet<AdminLog> AdminLogs { get; set; }
         public DbSet<Release> Releases { get; set; }
+        public DbSet<Location> Locations { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
