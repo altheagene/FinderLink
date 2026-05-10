@@ -128,6 +128,24 @@
         cursor: pointer;
     }
 
+    /* MOBILE: keep the two dropdowns side-by-side */
+    @@media (max-width: 576px) {
+        .search-bar {
+            flex: 0 0 100%;
+            min-width: 0;
+        }
+
+        .filter-select {
+            flex: 1 1 calc(50% - 5px);
+            min-width: 0;
+        }
+
+        .btn-submit {
+            flex: 0 0 100%;
+            width: 100%;
+        }
+    }
+
         .filter-select option {
             color: black;
         }
