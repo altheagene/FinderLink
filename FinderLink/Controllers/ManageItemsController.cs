@@ -48,10 +48,10 @@ namespace FinderLink.Controllers
                 items = items.Where(i => i.LocationFound.Equals(location, StringComparison.OrdinalIgnoreCase)).ToList();
             }
 
-            //ViewBag.Categories = Models.LookupData.Categories;
-            //ViewBag.Locations = Models.LookupData.Locations;
-            ViewBag.Locations = await _locationService.GetAllAsync();
-            ViewBag.Categories = await _categoryService.GetAllAsync();
+            ViewBag.Categories = Models.LookupData.Categories;
+            ViewBag.Locations = Models.LookupData.Locations;
+            //ViewBag.Locations = await _locationService.GetAllAsync();
+            //ViewBag.Categories = await _categoryService.GetAllAsync();
             ViewBag.Search = search;
             ViewBag.SelectedCategory = category;
             ViewBag.SelectedLocation = location;
