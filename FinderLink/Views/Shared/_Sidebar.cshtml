@@ -1,6 +1,10 @@
 ﻿@{
     var controller = ViewContext.RouteData.Values["controller"]?.ToString();
     var action = ViewContext.RouteData.Values["action"]?.ToString();
+
+    var username = Context.Session.GetString("AdminUsername");
+    var name = Context.Session.GetString("AdminName");
+    var initials = string.IsNullOrEmpty(name) ? "A" : string.Concat(name.Split(' ').Select(w => w[0])).ToUpper();
 }
 
 <style>
@@ -30,16 +34,45 @@
         border-right: 1px solid rgba(255, 255, 255, 0.08);
     }
 
+    @@media (min-width: 992px) {
+
+        .admin-sidebar-offcanvas {
+            visibility: visible !important;
+            transform: none !important;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            width: var(--admin-sidebar-width);
+            border-right: 1px solid rgba(255,255,255,0.08);
+        }
+
+            .admin-sidebar-offcanvas .offcanvas-body {
+                padding: 0;
+                height: 100%;
+            }
+
+        .sidebar-admin {
+            width: 100%;
+            height: 100%;
+            min-height: 100vh;
+        }
+
+        .offcanvas-backdrop {
+            display: none !important;
+        }
+    }
+
     @@media (max-width: 991.98px) {
         .admin-sidebar-offcanvas {
-            width: var(--admin-sidebar-width-mobile);
+            width: 82vw;
+            max-width: 320px;
         }
 
         .sidebar-admin {
-            min-height: auto;
-            height: auto;
+            width: 100%;
+            min-height: 100vh;
+            padding: 20px 18px;
             border-right: none;
-            padding: 18px;
         }
 
         .sidebar-brand {
@@ -75,6 +108,46 @@
             font-size: 1rem;
         }
     }
+    /* ADMIN PROFILE CARD */
+    .admin-profile {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 14px;
+        padding: 12px 14px;
+        margin: 16px 0;
+    }
+
+    .admin-avatar {
+        width: 42px;
+        height: 42px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #3a3a3a, #1f1f1f);
+        color: #ffffff;
+        font-size: 13px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-transform: uppercase;
+    }
+
+    .admin-profile-name {
+        font-size: 13.5px;
+        font-weight: 700;
+        color: #ffffff;
+        line-height: 1.2;
+    }
+
+    .admin-profile-username {
+        font-size: 11.5px;
+        color: rgba(255, 255, 255, 0.45);
+        font-weight: 400;
+        margin-top: 2px;
+    }
+
 
     /* BRAND */
     .sidebar-brand {
@@ -177,20 +250,24 @@
     }
 
     .logout-btn {
-        display: block;
-        text-align: center;
-        padding: 10px;
-        /* background: rgba(255, 0, 0, 0.1); */
-        color: #ffffff;
-        border-radius: 8px;
-        text-decoration: none;
-        font-weight: 500;
-        margin-bottom: 8px;
-        transition: 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 10px 12px;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        color: rgba(255, 255, 255, 0.75);
+        font-weight: 600;
+        font-size: 13px;
+        transition: 0.2s ease;
     }
 
         .logout-btn:hover {
-            background: rgba(255, 0, 0, 0.2);
+            background: rgba(255, 70, 70, 0.15);
+            border-color: rgba(255, 70, 70, 0.3);
+            color: #ff6b6b;
         }
 
     .sidebar-footer small {
@@ -216,18 +293,39 @@
             <div class="brand-title" style="font-size: 1.1rem;">FinderLink</div>
         </div>
 
+        @* <div class="admin-profile">
+            <div class="admin-avatar">@initials</div>
+            <div>
+                <div class="admin-profile-name">@name</div>
+                <div class="admin-profile-username">&#64;@username</div>
+            </div>
+        </div> *@
+
+
         <div style="width: 36px;"></div>
     </div>
 </div>
 
-<div class="offcanvas-lg offcanvas-start text-bg-dark admin-sidebar-offcanvas"
+<div class="offcanvas offcanvas-start admin-sidebar-offcanvas"
      tabindex="-1"
      id="adminSidebar"
      aria-labelledby="adminSidebarLabel">
-    <div class="offcanvas-header d-lg-none">
-        <h5 class="offcanvas-title" id="adminSidebarLabel">Menu</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+
+    <div class="offcanvas-header d-lg-none border-0"
+         style="background:#2A2A2A;">
+        
+        <h5 class="offcanvas-title text-white"
+            id="adminSidebarLabel">
+            Menu
+        </h5>
+
+        <button type="button"
+                class="btn-close btn-close-white"
+                data-bs-dismiss="offcanvas"
+                aria-label="Close">
+        </button>
     </div>
+
 
     <div class="offcanvas-body p-0">
         <aside class="sidebar-admin">
@@ -236,6 +334,20 @@
                     <i class="bi bi-geo-alt"></i>
                 </div>
                 <div class="brand-title">FinderLink</div>
+            </div>
+
+            <div class="admin-profile">
+                <div class="admin-avatar">@initials</div>
+
+                <div style="min-width: 0;">
+                    <div class="admin-profile-name">
+                        @(string.IsNullOrEmpty(name) ? "Admin" : name)
+                    </div>
+
+                    <div class="admin-profile-username">
+                        @@@(string.IsNullOrEmpty(username) ? "admin" : username)
+                    </div>
+                </div>
             </div>
 
             <div class="sidebar-section">

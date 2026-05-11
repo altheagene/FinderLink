@@ -70,6 +70,9 @@ namespace FinderLink.Controllers
             admin.Name = model.Name;
             admin.Email = model.Email;
             admin.Username = model.Username;
+            HttpContext.Session.SetString("AdminUsername", admin.Username);
+            HttpContext.Session.SetString("AdminName", admin.Name);
+
             await _adminService.UpdateAdminAsync(admin);
             TempData["SettingsMessage"] = "Profile updated successfully.";
             return RedirectToAction(nameof(Index), new { tab = "profile" });

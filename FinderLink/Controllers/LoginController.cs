@@ -33,13 +33,14 @@ namespace FinderLink.Controllers
             var isValid = await _adminService.ValidateLoginAsync(model.Username, model.Password);
             if (!isValid)
             {
-                ModelState.AddModelError(string.Empty, "Invalid username or password.");
+                ModelState.AddModelError("LoginError", "Invalid username or password.");
                 return View(model);
             }
 
             var admin = await _adminService.GetAdminByUsernameAsync(model.Username);
             HttpContext.Session.SetInt32("AdminId", admin!.AdminId);
             HttpContext.Session.SetString("AdminUsername", admin.Username);
+            HttpContext.Session.SetString("AdminName", admin.Name);
 
             return RedirectToAction("Index", "Dashboard");
         }
