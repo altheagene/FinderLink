@@ -1,21 +1,28 @@
 ﻿@{
     ViewData["Title"] = "Dashboard";
+    var colorPalette = new[]
+    {
+    "#c4b800", // yellow
+    "#4a7a1e", // green
+    "#c85a88", // pink
+    "#1a6aad", // blue
+    "#c05a18", // orange
+    "#6b7280", // gray
+    "#7c3aed", // purple
+    "#0ea5e9", // sky
+    "#ef4444", // red
+    "#14b8a6"  // teal
+};
+
+    var colors = LookupData.Categories
+        .Select((cat, i) => new { cat, color = colorPalette[i % colorPalette.Length] })
+        .ToDictionary(x => x.cat, x => x.color);
 }
 
 <style>
     /* ===== DASHBOARD BASE ===== */
 
-    @{
-    var colors = new Dictionary<string, string>
-    {
-    { "Phones & Gadgets", "#c4b800" } ,
-    { "IDs & Documents", "#4a7a1e" } ,
-        { "Wallets & Purses", "#c85a88" },
-    { "Clothing", "#1a6aad" } ,
-    { "Keys", "#c05a18" } ,
-        { "Others", "#6b7280" }
-    };
-}
+
     .page {
         min-height: 100vh;
         color: #1e1b2e;

@@ -9,6 +9,7 @@ namespace FinderLink.Models
             "Wallets & Purses",
             "IDs & Documents",
             "Phones & Gadgets",
+            "Books & Stationery",
             "Others"
         };
 
@@ -21,7 +22,8 @@ namespace FinderLink.Models
             "Passenger Lounge",
             "Boarding Area",
             "Arrival Area",
-            "Departure Area"
+            "Departure Area",
+            "Train"
         };
     }
 }
