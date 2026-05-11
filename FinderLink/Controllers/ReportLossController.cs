@@ -55,23 +55,27 @@ namespace FinderLink.Controllers
                 return RedirectToAction("Index", "Login");
             }
 
-            if (model.ItemPhoto == null || model.ItemPhoto.Length == 0)
-            {
-                ModelState.AddModelError(nameof(model.ItemPhoto), "Item photo is required.");
-                return View(model);
-            }
+            string imagePath = null;
 
-            try
+            // ✅ OPTIONAL IMAGE HANDLING
+            if (model.ItemPhoto != null && model.ItemPhoto.Length > 0)
             {
                 var uploadsPath = Path.Combine(_environment.WebRootPath, "uploads");
                 Directory.CreateDirectory(uploadsPath);
+
                 var fileName = $"{Guid.NewGuid()}{Path.GetExtension(model.ItemPhoto.FileName)}";
                 var filePath = Path.Combine(uploadsPath, fileName);
+
                 await using (var stream = System.IO.File.Create(filePath))
                 {
                     await model.ItemPhoto.CopyToAsync(stream);
                 }
 
+                imagePath = $"/uploads/{fileName}";
+            }
+
+            try
+            {
                 await _itemService.CreateItemAsync(new Item
                 {
                     ItemName = model.ItemName,
@@ -81,7 +85,7 @@ namespace FinderLink.Controllers
                     DateFound = model.DateFound,
                     FoundByName = model.FoundByName,
                     FoundByContact = model.FoundByContact,
-                    ImagePath = $"/uploads/{fileName}",
+                    ImagePath = imagePath, // can be null now
                     CreatedBy = adminId.Value,
                     Status = "unclaimed"
                 });

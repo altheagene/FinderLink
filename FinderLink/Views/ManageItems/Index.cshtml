@@ -506,24 +506,39 @@
                         </div>
 
                     </div>
-                    <div>
-                        <div style="font-size: 11px; font-weight: 600; letter-spacing: 0.07em; color: #b0a89e; text-transform: uppercase; margin-bottom: 4px;">
-                            Reported By
+                    <div style="height: 1px; background: #f0ece6; margin: 1.2rem 0;"></div>
+
+                    <!-- FINDER INFO (SIDE BY SIDE) -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+
+                        <!-- REPORTED BY -->
+                        <div>
+                            <div style="font-size: 11px; font-weight: 600; letter-spacing: 0.07em; color: #b0a89e; text-transform: uppercase; margin-bottom: 4px;">
+                                Reported By
+                            </div>
+
+                            <div style="display: flex; align-items: center; gap: 6px;">
+                                <i class="bi bi-person" style="font-size: 13px; color: #9c8e82;"></i>
+                                <span id="v-finder-name"
+                                      style="font-size: 13.5px; color: #1e1b2e; font-weight: 500;">
+                                </span>
+                            </div>
                         </div>
 
-                        <div id="v-finder-name"
-                             style="font-size: 13.5px; color: #1e1b2e; font-weight: 500;">
-                        </div>
-                    </div>
+                        <!-- CONTACT INFO -->
+                        <div>
+                            <div style="font-size: 11px; font-weight: 600; letter-spacing: 0.07em; color: #b0a89e; text-transform: uppercase; margin-bottom: 4px;">
+                                Contact Info
+                            </div>
 
-                    <div>
-                        <div style="font-size: 11px; font-weight: 600; letter-spacing: 0.07em; color: #b0a89e; text-transform: uppercase; margin-bottom: 4px;">
-                            Contact Info
+                            <div style="display: flex; align-items: center; gap: 6px;">
+                                <i class="bi bi-telephone" style="font-size: 13px; color: #9c8e82;"></i>
+                                <span id="v-finder-contact"
+                                      style="font-size: 13.5px; color: #1e1b2e; font-weight: 500;">
+                                </span>
+                            </div>
                         </div>
 
-                        <div id="v-finder-contact"
-                             style="font-size: 13.5px; color: #1e1b2e; font-weight: 500;">
-                        </div>
                     </div>
 
                 </div>
@@ -548,115 +563,143 @@
 
             <div class="modal-body p-4">
 
-                <h5 class="mb-1">Edit Item</h5>
+                    <div class="modal-body p-4">
 
-                <p class="text-muted mb-4" style="font-size: 13px;">
-                    Update item details below.
-                </p>
+                        <h5 class="mb-1">Edit Item</h5>
 
-                <form method="post"
-                      asp-action="Edit"
-                      asp-controller="ManageItems"
-                      enctype="multipart/form-data"
-                      class="d-flex flex-column gap-3">
+                        <p class="text-muted mb-3" style="font-size: 13px;">
+                            Update item details below.
+                        </p>
 
-                    @Html.AntiForgeryToken()
-                    <input type="hidden" id="editItemId" name="ItemId" />
+                        <form method="post"
+                              asp-action="Edit"
+                              asp-controller="ManageItems"
+                              enctype="multipart/form-data"
+                              class="d-flex flex-column gap-3">
 
-                    <div class="d-flex align-items-center justify-content-between mb-2">
-                        <label class="form-label mb-0">ITEM IMAGE</label>
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" id="editItemId" name="ItemId" />
 
-                        <button type="button"
-                                class="btn btn-sm btn-outline-danger"
-                                id="removeImageBtn">
-                            <i class="bi bi-trash"></i> Remove
-                        </button>
-                    </div>
-
-                    <img id="editImagePreview"
-                         style="width:100%;
-                    max-height:200px;
-                    object-fit:cover;
-                    border-radius:10px;
-                    margin-bottom:10px;
-                    display:none;" />
-
-                    <input type="hidden" id="removeImageFlag" name="RemoveImage" value="false" />
-
-                    <input type="file"
-                           class="form-control custom-input"
-                           id="editImageFile"
-                           name="ImageFile"
-                           accept="image/*" />
-                    <div>
-                        <label class="form-label">ITEM NAME</label>
-                        <input id="editName" name="ItemName" class="form-control custom-input" />
-                    </div>
-
-                    <div>
-                        <label class="form-label">DESCRIPTION</label>
-                        <textarea id="editDesc" name="Description"
-                                  class="form-control custom-input"
-                                  rows="3"></textarea>
-                    </div>
-
-                    <div class="row g-2">
-
-                        <!-- CATEGORY -->
-                        <div class="col-md-6">
-                            <label class="form-label">CATEGORY</label>
-                            <select id="editCategory"
-                                    name="Category"
-                                    class="form-control custom-input">
-                                @foreach (var c in (string[])ViewBag.Categories)
-                                {
-                                    <option value="@c">@c</option>
-                                }
-                            </select>
-                        </div>
-
-                        <!-- LOCATION -->
-                        <div class="col-md-6">
-                            <label class="form-label">LOCATION</label>
-                            <select id="editLocation"
-                                    name="LocationFound"
-                                    class="form-control custom-input">
-                                @foreach (var l in (string[])ViewBag.Locations)
-                                {
-                                    <option value="@l">@l</option>
-                                }
-                            </select>
-                        </div>
-
+                            <!-- IMAGE -->
                             <div>
-                                <label class="form-label">FINDER NAME</label>
-                                <input id="editFinderName"
-                                       name="FinderName"
-                                       class="form-control custom-input" />
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <label class="form-label mb-0">ITEM IMAGE</label>
+
+                                    <button type="button"
+                                            class="btn btn-sm btn-outline-danger"
+                                            id="removeImageBtn">
+                                        <i class="bi bi-trash"></i> Remove
+                                    </button>
+                                </div>
+
+                                <img id="editImagePreview"
+                                     style="width:100%;
+                                max-height:160px;
+                                object-fit:cover;
+                                border-radius:10px;
+                                margin-bottom:10px;
+                                display:none;" />
+
+                                <input type="hidden" id="removeImageFlag" name="RemoveImage" value="false" />
+
+                                <input type="file"
+                                       class="form-control custom-input"
+                                       id="editImageFile"
+                                       name="ImageFile"
+                                       accept="image/*" />
                             </div>
 
-                            <div>
-                                <label class="form-label">CONTACT INFO</label>
-                                <input id="editFinderContact"
-                                       name="ContactInfo"
-                                       class="form-control custom-input" />
+                            <div style="height:1px;background:#f0ece6;"></div>
+
+                            <!-- BASIC INFO GRID -->
+                            <div class="row g-2">
+
+                                <div class="col-12">
+                                    <label class="form-label">ITEM NAME</label>
+                                    <input id="editName" name="ItemName" class="form-control custom-input" />
+                                </div>
+
+                                <div class="col-12">
+                                    <label class="form-label">DESCRIPTION</label>
+                                    <textarea id="editDesc"
+                                              name="Description"
+                                              class="form-control custom-input"
+                                              rows="2"></textarea>
+                                </div>
+
                             </div>
 
+                            <div style="height:1px;background:#f0ece6;"></div>
+
+                            <!-- CATEGORY + LOCATION -->
+                            <div class="row g-2">
+
+                                <div class="col-md-6">
+                                    <label class="form-label">CATEGORY</label>
+                                    <select id="editCategory"
+                                            name="Category"
+                                            class="form-control custom-input">
+                                        @foreach (var c in (string[])ViewBag.Categories)
+                                        {
+                                            <option value="@c">@c</option>
+                                        }
+                                    </select>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label">LOCATION</label>
+                                    <select id="editLocation"
+                                            name="LocationFound"
+                                            class="form-control custom-input">
+                                        @foreach (var l in (string[])ViewBag.Locations)
+                                        {
+                                            <option value="@l">@l</option>
+                                        }
+                                    </select>
+                                </div>
+
+                            </div>
+
+                            <div style="height:1px;background:#f0ece6;"></div>
+
+                            <!-- FINDER INFO -->
+                            <div class="row g-2">
+
+                                <div class="col-md-6">
+                                    <label class="form-label">FINDER NAME</label>
+                                    <input id="editFinderName"
+                                           name="FinderName"
+                                           class="form-control custom-input" />
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label">CONTACT INFO</label>
+                                    <input id="editFinderContact"
+                                           name="ContactInfo"
+                                           class="form-control custom-input" />
+                                </div>
+
+                            </div>
+
+                            <!-- ACTIONS -->
+                            <div class="d-flex justify-content-end gap-2 mt-2">
+
+                                <button type="button"
+                                        class="btn-cancel"
+                                        data-bs-dismiss="modal">
+                                    Cancel
+                                </button>
+
+                                <button type="submit"
+                                        class="btn-submit">
+                                    Save Changes →
+                                </button>
+
+                            </div>
+
+                        </form>
+
                     </div>
-
-                    <div class="d-flex justify-content-end gap-2 mt-2">
-                        <button type="button" class="btn-cancel" data-bs-dismiss="modal">
-                            Cancel
-                        </button>
-
-                        <button type="submit" class="btn-submit">
-                            Save Changes →
-                        </button>
-                    </div>
-
-                </form>
-
-            </div>
 
         </div>
     </div>

@@ -26,7 +26,7 @@ namespace FinderLink.Models
         [Required]
         public string FoundByContact { get; set; } = string.Empty;
 
-        [Required]
+        
         public IFormFile? ItemPhoto { get; set; }
     }
 }
