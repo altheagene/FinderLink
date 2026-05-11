@@ -12,6 +12,12 @@ namespace FinderLink.Controllers
             _itemService = itemService;
         }
 
+        [HttpGet]
+        public IActionResult LandingPage()
+        {
+            return View();
+        }
+
         public async Task<IActionResult> Index()
         {
             if (!this.IsAdminLoggedIn())

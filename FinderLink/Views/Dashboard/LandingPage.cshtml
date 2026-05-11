@@ -1,0 +1,701 @@
+@{
+    ViewData["Title"] = "FinderLink – Lost & Found";
+    ViewData["HideSideBar"] = true;
+}
+
+<style>
+    @@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+        --yellow: #D4C800;
+        --yellow-dark: #B8AE00;
+        --yellow-light: #EDE200;
+        --black: #111010;
+        --white: #F5F0E8;
+        --gray: #2a2a2a;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+        background: var(--black);
+        color: var(--white);
+        font-family: 'DM Sans', sans-serif;
+        overflow-x: hidden;
+    }
+
+    /* GLOBAL HEADER */
+    .header-bar {
+        padding: 0.6rem 1.2rem;
+        border-bottom: 1px solid rgba(92, 82, 74, 0.25);
+        background-color: #F5F0E8;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .brand-icon-wrap {
+        width: 40px;
+        height: 40px;
+        background-color: #2a2a2a;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .brand-icon-wrap i {
+        font-size: 1.4rem;
+        color: white;
+    }
+
+    .brand-title {
+        font-size: 1.4rem;
+        font-weight: 800;
+        color: #2a2a2a;
+    }
+
+    .admin-btn {
+        background: #2a2a2a;
+        color: #fff;
+        border: none;
+        border-radius: 20px;
+        padding: 6px 14px;
+        font-size: 12px;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        text-decoration: none;
+        transition: 0.2s;
+    }
+
+    .admin-btn i {
+        font-size: 0.9rem;
+        transition: transform 0.2s;
+    }
+
+    .admin-btn:hover i {
+        transform: translateX(3px);
+    }
+
+    /* ── HERO ── */
+    .hero {
+        position: relative;
+        min-height: 60vh;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        overflow: hidden;
+        padding: 90px 60px 80px;
+        background: #F5F0E8;
+    }
+
+    .hero::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+        opacity: 0.35;
+        pointer-events: none;
+    }
+
+    .hero::after {
+        content: '';
+        position: absolute;
+        bottom: -2px; left: 0; right: 0;
+        height: 120px;
+        background: var(--black);
+        clip-path: polygon(0 60%, 100% 0, 100% 100%, 0 100%);
+    }
+
+    .hero-left {
+        position: relative;
+        z-index: 2;
+    }
+
+    .hero-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(17,16,16,0.15);
+        border: 1px solid rgba(17,16,16,0.25);
+        padding: 6px 14px;
+        border-radius: 100px;
+        font-size: 0.72rem;
+        font-weight: 500;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--black);
+        margin-bottom: 28px;
+        animation: fadeUp 0.6s ease both;
+    }
+
+    .hero-eyebrow span { width: 6px; height: 6px; background: var(--black); border-radius: 50%; }
+
+    h1 {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: clamp(4rem, 7vw, 7.5rem);
+        line-height: 0.92;
+        letter-spacing: -0.01em;
+        color: var(--black);
+        animation: fadeUp 0.7s 0.1s ease both;
+    }
+
+    h1 em {
+        font-style: normal;
+        color: var(--white);
+        background: var(--black);
+        padding: 0 12px;
+        display: inline-block;
+    }
+
+    .hero-sub {
+        margin-top: 24px;
+        font-size: 1.05rem;
+        font-weight: 300;
+        line-height: 1.65;
+        color: rgba(17,16,16,0.72);
+        max-width: 420px;
+        animation: fadeUp 0.7s 0.2s ease both;
+    }
+
+    .hero-badges {
+        margin-top: 40px;
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        animation: fadeUp 0.7s 0.3s ease both;
+    }
+
+    .badge {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        background: var(--black);
+        color: var(--yellow);
+        padding: 9px 18px;
+        border-radius: 100px;
+        font-size: 0.78rem;
+        font-weight: 500;
+        letter-spacing: 0.04em;
+    }
+
+    .badge svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+    .hero-right {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    .hero-arrow {
+        position: absolute;
+        right: -20px; top: 50%;
+        transform: translateY(-50%);
+        width: 55%;
+        opacity: 0.18;
+    }
+
+    .luggage-wrap {
+        position: relative;
+        z-index: 3;
+        animation: float 4s ease-in-out infinite;
+    }
+
+    .luggage-icon {
+        width: 220px;
+        height: 220px;
+        border: 4px solid var(--black);
+        border-radius: 24px;
+        background: rgba(17,16,16,0.08);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+
+    .luggage-icon svg { width: 110px; height: 110px; color: var(--black); }
+
+    .luggage-tag {
+        position: absolute;
+        top: -16px; right: -16px;
+        background: var(--black);
+        color: var(--yellow);
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 0.9rem;
+        letter-spacing: 0.08em;
+        padding: 6px 14px;
+        border-radius: 8px;
+    }
+
+    /* ── FLOATING CTA ── */
+    .floating-cta {
+        position: fixed;
+        bottom: 32px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 999;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: #F5F0E8;
+        color: var(--black);
+        text-decoration: none;
+        border-radius: 999px;
+        padding: 0.85rem 2rem;
+        font-weight: 700;
+        font-size: 0.95rem;
+        letter-spacing: 0.03em;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.45), 0 2px 8px rgba(0,0,0,0.2);
+        animation: floatUp 0.7s 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+        transition: transform 0.2s, box-shadow 0.2s, color 0.2s;
+        white-space: nowrap;
+        border: 1.5px solid rgba(212,200,0,0.2);
+    }
+
+    .floating-cta:hover {
+        @* color: var(--yellow); *@
+        transform: translateX(-50%) translateY(-3px);
+        box-shadow: 0 16px 40px rgba(0,0,0,0.5), 0 4px 12px rgba(0,0,0,0.25);
+        border-color: rgba(212,200,0,0.5);
+    }
+
+    .floating-cta svg {
+        width: 16px; height: 16px;
+        flex-shrink: 0;
+        transition: transform 0.2s;
+    }
+
+    .floating-cta:hover svg { transform: translateX(3px); }
+
+    /* pulse ring */
+    .floating-cta::before {
+        content: '';
+        position: absolute;
+        inset: -5px;
+        border-radius: 999px;
+        border: 2px solid rgba(212,200,0,0.35);
+        animation: pulse-ring 2.4s ease-out infinite;
+        pointer-events: none;
+    }
+
+    /* ── STATS STRIP ── */
+    .stats-strip {
+        background: var(--yellow);
+        padding: 0;
+        overflow: hidden;
+    }
+
+    .ticker-wrap {
+        display: flex;
+        border-top: 2px solid var(--black);
+        border-bottom: 2px solid var(--black);
+    }
+
+    .ticker-inner {
+        display: flex;
+        animation: ticker 22s linear infinite;
+        white-space: nowrap;
+    }
+
+    .ticker-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 14px;
+        padding: 14px 40px;
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 1.1rem;
+        letter-spacing: 0.1em;
+        color: var(--black);
+        border-right: 2px solid rgba(17,16,16,0.2);
+    }
+
+    .ticker-item .dot { width: 8px; height: 8px; background: var(--black); border-radius: 50%; flex-shrink: 0; }
+
+    /* ── HOW IT WORKS ── */
+    .section { padding: 100px 60px; }
+
+    .section-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.72rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--yellow);
+        margin-bottom: 20px;
+    }
+
+    .section-label::before {
+        content: '';
+        display: block;
+        width: 24px; height: 2px;
+        background: var(--yellow);
+    }
+
+    .section-title {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: clamp(2.4rem, 4vw, 4rem);
+        line-height: 1.0;
+        letter-spacing: 0.01em;
+        color: var(--white);
+        max-width: 500px;
+    }
+
+    .steps {
+        margin-top: 60px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2px;
+    }
+
+    .step {
+        background: var(--gray);
+        padding: 44px 36px;
+        position: relative;
+        overflow: hidden;
+        transition: background 0.25s;
+    }
+
+    .step:hover { background: #333; }
+
+    .step-num {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 5rem;
+        line-height: 1;
+        color: rgba(212,200,0,0.12);
+        position: absolute;
+        top: 16px; right: 24px;
+        letter-spacing: -0.03em;
+    }
+
+    .step-icon {
+        width: 48px; height: 48px;
+        background: var(--yellow);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 24px;
+    }
+
+    .step-icon svg { width: 24px; height: 24px; color: var(--black); }
+
+    .step h3 {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 1.5rem;
+        letter-spacing: 0.04em;
+        color: var(--white);
+        margin-bottom: 10px;
+    }
+
+    .step p {
+        font-size: 0.9rem;
+        font-weight: 300;
+        line-height: 1.65;
+        color: rgba(245,244,238,0.55);
+    }
+
+    /* ── INFO CARDS ── */
+    .info-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: 2px;
+        margin-top: 2px;
+    }
+
+    .info-card {
+        background: var(--gray);
+        padding: 50px;
+    }
+
+    .info-card.accent { background: var(--yellow); }
+    .info-card.accent .info-card-title { color: var(--black); }
+    .info-card.accent .info-card-body { color: rgba(17,16,16,0.65); }
+    .info-card.accent .info-tag { background: var(--black); color: var(--yellow); }
+
+    .info-tag {
+        display: inline-block;
+        background: var(--yellow);
+        color: var(--black);
+        font-size: 0.68rem;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        padding: 5px 12px;
+        border-radius: 100px;
+        margin-bottom: 20px;
+    }
+
+    .info-card-title {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 2rem;
+        letter-spacing: 0.03em;
+        color: var(--white);
+        margin-bottom: 14px;
+        line-height: 1.1;
+    }
+
+    .info-card-body {
+        font-size: 0.9rem;
+        font-weight: 300;
+        line-height: 1.7;
+        color: rgba(245,244,238,0.55);
+        max-width: 380px;
+    }
+
+    /* ── STAT COUNTERS ── */
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2px;
+    }
+
+    .stat-card {
+        background: var(--gray);
+        padding: 50px 40px;
+        text-align: center;
+    }
+
+    .stat-value {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 4.5rem;
+        line-height: 1;
+        color: var(--yellow);
+        letter-spacing: -0.02em;
+    }
+
+    .stat-unit { font-size: 1.8rem; }
+
+    .stat-label {
+        margin-top: 10px;
+        font-size: 0.82rem;
+        font-weight: 400;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: rgba(245,244,238,0.4);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+        background: #0a0a0a;
+        border-top: 1px solid rgba(212,200,0,0.1);
+        padding: 40px 60px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .footer-logo {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 1.4rem;
+        letter-spacing: 0.08em;
+        color: var(--yellow);
+    }
+
+    .footer-note {
+        font-size: 0.78rem;
+        color: rgba(245,244,238,0.3);
+    }
+
+    /* ── ANIMATIONS ── */
+    @@keyframes fadeUp {
+        from { opacity: 0; transform: translateY(24px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @@keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50%       { transform: translateY(-14px); }
+    }
+
+    @@keyframes ticker {
+        0%   { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+    }
+
+    @@keyframes floatUp {
+        from { opacity: 0; transform: translateX(-50%) translateY(24px); }
+        to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+
+    @@keyframes pulse-ring {
+        0%   { opacity: 0.7; transform: scale(1); }
+        100% { opacity: 0;   transform: scale(1.2); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @@media (max-width: 900px) {
+        .hero { grid-template-columns: 1fr; padding: 100px 24px 80px; }
+        .hero-right { display: none; }
+        .section { padding: 70px 24px; }
+        .steps, .stats-grid { grid-template-columns: 1fr; }
+        .info-grid { grid-template-columns: 1fr; }
+        footer { flex-direction: column; gap: 12px; text-align: center; }
+        .floating-cta { bottom: 20px; font-size: 0.88rem; padding: 0.75rem 1.6rem; }
+    }
+</style>
+
+<div class="header-bar">
+    <div class="d-flex align-items-center gap-2">
+        <div class="brand-icon-wrap">
+            <i class="bi bi-geo-alt"></i>
+        </div>
+        <span class="brand-title">FinderLink</span>
+    </div>
+    <a class="admin-btn" asp-controller="Login" asp-action="Index">
+        Admin Portal <i class="bi bi-arrow-right"></i>
+    </a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-left">
+        <div class="hero-eyebrow">
+            <span></span>
+            Station Lost & Found Network
+        </div>
+        <h1>LOST AT<br>THE <em>STATION?</em><br>WE FIND IT.</h1>
+        <p class="hero-sub">
+            FinderLink connects travelers and station staff through a verified network of lost-item reports. Browse listings, submit a claim, and get reunited with your belongings—fast.
+        </p>
+        <div class="hero-badges" style="margin-top: 28px;">
+            <div class="badge">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                Verified Listings
+            </div>
+            <div class="badge">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                Real-time Updates
+            </div>
+            <div class="badge">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>
+                All Major Stations
+            </div>
+        </div>
+    </div>
+
+    <div class="hero-right">
+        <svg class="hero-arrow" viewBox="0 0 500 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 140H360L260 0H400L500 200L400 400H260L360 260H0V140Z" fill="#111010"/>
+        </svg>
+        <div class="luggage-wrap">
+            <div class="luggage-icon">
+                <div class="luggage-tag">UNCLAIMED</div>
+                <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                    <rect x="5" y="7" width="14" height="13" rx="2"/>
+                    <path stroke-linecap="round" d="M8 7V5a2 2 0 014 0v2M12 11v4"/>
+                    <circle cx="12" cy="13" r="0.5" fill="currentColor"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- TICKER -->
+<div class="stats-strip">
+    <div class="ticker-wrap">
+        <div class="ticker-inner" aria-hidden="true">
+            <span class="ticker-item"><span class="dot"></span> Report a lost item in under 2 minutes</span>
+            <span class="ticker-item"><span class="dot"></span> Available at 40+ stations nationwide</span>
+            <span class="ticker-item"><span class="dot"></span> Staff-verified found items only</span>
+            <span class="ticker-item"><span class="dot"></span> Secure identity confirmation</span>
+            <span class="ticker-item"><span class="dot"></span> 24/7 live listing updates</span>
+            <span class="ticker-item"><span class="dot"></span> Report a lost item in under 2 minutes</span>
+            <span class="ticker-item"><span class="dot"></span> Available at 40+ stations nationwide</span>
+            <span class="ticker-item"><span class="dot"></span> Staff-verified found items only</span>
+            <span class="ticker-item"><span class="dot"></span> Secure identity confirmation</span>
+            <span class="ticker-item"><span class="dot"></span> 24/7 live listing updates</span>
+        </div>
+    </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how">
+    <div class="section-label">Process</div>
+    <div class="section-title">HOW FINDERLINK WORKS</div>
+    <div class="steps">
+        <div class="step">
+            <div class="step-num">01</div>
+            <div class="step-icon">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                </svg>
+            </div>
+            <h3>Hand It to Staff</h3>
+            <p>Found something at the station? Bring it to the nearest Lost & Found desk. Only authorized station staff can log and upload items into the system to keep listings verified and trustworthy.</p>
+        </div>
+        <div class="step">
+            <div class="step-num">02</div>
+            <div class="step-icon">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="M21 21l-4.35-4.35"/>
+                </svg>
+            </div>
+            <h3>Search Listings</h3>
+            <p>Browse verified found-item listings from the station desk. Smart filters narrow results by type, date, and terminal.</p>
+        </div>
+        <div class="step">
+            <div class="step-num">03</div>
+            <div class="step-icon">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                </svg>
+            </div>
+            <h3>Verify & Reclaim</h3>
+            <p>Match a listing? Confirm your identity through our secure process and collect your item at the designated desk.</p>
+        </div>
+    </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-value">94<span class="stat-unit">%</span></div>
+        <div class="stat-label">Match success rate</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">40<span class="stat-unit">+</span></div>
+        <div class="stat-label">Partnered stations</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">2<span class="stat-unit">min</span></div>
+        <div class="stat-label">Avg. report time</div>
+    </div>
+</div>
+
+<!-- INFO CARDS -->
+<div class="info-grid" id="about">
+    <div class="info-card accent">
+        <div class="info-tag">For Travelers</div>
+        <div class="info-card-title">LOST SOMETHING? START HERE.</div>
+        <p class="info-card-body">
+            File a lost-item report the moment you realize something's missing. Our system cross-references it automatically against found items logged by station staff—so you get notified the moment there's a match, even days later.
+        </p>
+    </div>
+    <div class="info-card">
+        <div class="info-tag">For Station Staff</div>
+        <div class="info-card-title">MANAGE FOUND ITEMS EFFORTLESSLY.</div>
+        <p class="info-card-body">
+            Log found items with photos and details in seconds. FinderLink does the matching work, reducing front-desk pressure and keeping storage rooms organized with clear status tracking.
+        </p>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-logo">FinderLink</div>
+    <p class="footer-note">© @DateTime.Now.Year FinderLink. All rights reserved. · Station Lost & Found Network</p>
+</footer>
+
+<!-- FLOATING CTA -->
+<a class="floating-cta" asp-controller="Public" asp-action="Index">
+    Find my item
+    <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+    </svg>
+</a>

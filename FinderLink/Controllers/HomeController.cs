@@ -8,7 +8,7 @@ namespace FinderLink.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("LandingPage", "Dashboard");
         }
 
         public IActionResult Privacy()

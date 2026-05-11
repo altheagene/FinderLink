@@ -49,7 +49,7 @@ app.MapStaticAssets();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Public}/{action=Index}/{id?}")
+    pattern: "{controller=Dashboard}/{action=LandingPage}/{id?}")
     .WithStaticAssets();
 
 using (var scope = app.Services.CreateScope())
