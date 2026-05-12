@@ -2,16 +2,16 @@
     ViewData["Title"] = "Dashboard";
     var colorPalette = new[]
     {
-    "#c4b800", // yellow
-    "#4a7a1e", // green
-    "#c85a88", // pink
-    "#1a6aad", // blue
-    "#c05a18", // orange
-    "#6b7280", // gray
-    "#7c3aed", // purple
-    "#0ea5e9", // sky
-    "#ef4444", // red
-    "#14b8a6"  // teal
+    "#c4b800", // warm yellow
+    "#c05a18", // burnt orange
+    "#1a6aad", // muted blue
+    "#8b5e3c", // warm brown
+    "#7a6300", // dark gold
+    "#a04515", // deep orange
+    "#b8860b", // dark goldenrod
+    "#6b4f2a", // deep brown
+    "#c47a00", // amber
+    "#5a4a8b", // muted purple
 };
 
     var colors = LookupData.Categories
@@ -133,41 +133,82 @@
     </div>
 
     <!-- STATS -->
-    <div class="row g-4">
+    <div class="card-dark mb-4" style="padding: 1.2rem;">
 
-        <div class="col-md-4">
-            <div class="stat-card" style="background-color: #fdf9c4">
-                <span class="stat-label">TOTAL ITEMS</span>
-                <h3>@ViewBag.TotalItems</h3>
-            </div>
+        <!-- CARD HEADER -->
+        <div style="margin-bottom: 1rem; padding-bottom: 0.8rem; border-bottom: 1px solid #ece9f5;">
+            <div style="font-size: 15px; font-weight: 700; color: #1e1b2e; margin-bottom: 2px;">Item Status Overview</div>
+            <div style="font-size: 12px; color: #9c8e82;">Summary of all logged lost & found items and their current claim status</div>
         </div>
 
-        @* <div class="col-md-3">
-            <div class="stat-card" style="background-color: #E8ECE3">
-                <p>PENDING</p>
-                <h3>@ViewBag.PendingItems</h3>
-                
-            </div>
-        </div> *@
+        <div class="row g-0 align-items-center">
 
-        <div class="col-md-4">
-            <div class="stat-card" style="background-color: #dff0c8;">
-                <span class="stat-label">CLAIMED</span>
-                <h3>@ViewBag.ClaimedItems</h3>
-                
+            <!-- PIE CHART -->
+            <div class="col-md-4 d-flex flex-column align-items-center justify-content-center" style="padding: 0.8rem;">
+                <div style="position: relative; width: 160px; height: 160px;">
+                    <canvas id="statsDonut"></canvas>
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; pointer-events: none;">
+                        <div style="font-size: 1.7rem; font-weight: 800; color: #1e1b2e; line-height: 1;">@ViewBag.TotalItems</div>
+                        <div style="font-size: 10px; font-weight: 600; color: #9c8e82; letter-spacing: 0.06em; text-transform: uppercase;">Total</div>
+                    </div>
+                </div>
             </div>
+
+            <!-- DIVIDER -->
+            <div class="col-md-1 d-none d-md-flex justify-content-center">
+                <div style="width: 1px; height: 120px; background: #ece9f5;"></div>
+            </div>
+
+            <!-- STATS -->
+            <div class="col-md-7 d-flex flex-column gap-2" style="padding: 0.8rem 1rem;">
+
+                <!-- TOTAL -->
+                <div style="display: flex; align-items: center; gap: 12px; background: #fdf9c4; border-radius: 12px; padding: 10px 14px;">
+                    <div style="width: 34px; height: 34px; border-radius: 8px; background: #f0e800; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <i class="bi bi-box-seam" style="color: #2a2a2a; font-size: 1rem;"></i>
+                    </div>
+                    <div>
+                        <div style="font-size: 10px; font-weight: 600; letter-spacing: 0.07em; color: #9c8e82; text-transform: uppercase;">Total Items</div>
+                        <div style="font-size: 1.3rem; font-weight: 800; color: #1e1b2e; line-height: 1.2;">@ViewBag.TotalItems</div>
+                    </div>
+                </div>
+
+                <!-- CLAIMED -->
+                <div style="display: flex; align-items: center; gap: 12px; background: #eaf3de; border-radius: 12px; padding: 10px 14px;">
+                    <div style="width: 34px; height: 34px; border-radius: 8px; background: #c0dd97; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <i class="bi bi-check-circle" style="color: #2a2a2a; font-size: 1rem;"></i>
+                    </div>
+                    <div style="flex: 1;">
+                        <div style="font-size: 10px; font-weight: 600; letter-spacing: 0.07em; color: #9c8e82; text-transform: uppercase;">Claimed</div>
+                        <div style="display: flex; align-items: baseline; gap: 6px;">
+                            <div style="font-size: 1.3rem; font-weight: 800; color: #1e1b2e; line-height: 1.2;">@ViewBag.ClaimedItems</div>
+                            <div style="font-size: 11px; color: #4a7a1e; font-weight: 600;">
+                                @(ViewBag.TotalItems > 0 ? $"{(ViewBag.ClaimedItems * 100) / ViewBag.TotalItems}%" : "0%")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- UNCLAIMED -->
+                <div style="display: flex; align-items: center; gap: 12px; background: #fde8f1; border-radius: 12px; padding: 10px 14px;">
+                    <div style="width: 34px; height: 34px; border-radius: 8px; background: #f4c0d1; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <i class="bi bi-hourglass-split" style="color: #2a2a2a; font-size: 1rem;"></i>
+                    </div>
+                    <div style="flex: 1;">
+                        <div style="font-size: 10px; font-weight: 600; letter-spacing: 0.07em; color: #9c8e82; text-transform: uppercase;">Unclaimed</div>
+                        <div style="display: flex; align-items: baseline; gap: 6px;">
+                            <div style="font-size: 1.3rem; font-weight: 800; color: #1e1b2e; line-height: 1.2;">@ViewBag.UnclaimedItems</div>
+                            <div style="font-size: 11px; color: #c85a88; font-weight: 600;">
+                                @(ViewBag.TotalItems > 0 ? $"{(ViewBag.UnclaimedItems * 100) / ViewBag.TotalItems}%" : "0%")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
         </div>
-
-        <div class="col-md-4">
-            <div class="stat-card" style="background-color:#fde8f1;">
-                <span class="stat-label">UNCLAIMED</span>
-                <h3>@ViewBag.UnclaimedItems</h3>
-                
-            </div>
-        </div>
-
     </div>
-
     <!-- RECENT ITEMS + CLAIMS -->
     <div class="row mt-4">
 
@@ -300,7 +341,7 @@
                 </small>
             </div>
 
-            <a href="/ManageItems"
+            <a href="/ManageItems/Index"
                    class="btn btn-sm rounded-4 px-3"
                    style="background:#1e1e1e; color:white;">
                 View All
@@ -435,21 +476,30 @@
                         <!-- DATE -->
                         <td>@item.DateFound.ToString("MMM d, yyyy")</td>
 
-                        <!-- STATUS -->
-                        <td>
-                            @if (item.DisplayStatus == "claimed")
-                            {
-                                <span class="status claimed">Claimed</span>
-                            }
-                            else if (item.DisplayStatus == "pending")
-                            {
-                                <span class="status unclaimed">Pending</span>
-                            }
-                            else
-                            {
-                                <span class="status unclaimed">Unclaimed</span>
-                            }
-                        </td>
+                                <!-- STATUS -->
+                                <td>
+                                    @if (item.DisplayStatus == "claimed")
+                                    {
+                                        <span style="display: inline-flex; align-items: center; gap: 6px; background: #eaf3de; color: #3b6d11; font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 999px;">
+                                            <span style="width: 7px; height: 7px; border-radius: 50%; background: #4a7a1e; flex-shrink: 0;"></span>
+                                            Claimed
+                                        </span>
+                                    }
+                                    else if (item.DisplayStatus == "pending")
+                                    {
+                                        <span style="display: inline-flex; align-items: center; gap: 6px; background: #fdf9c4; color: #7a6300; font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 999px;">
+                                            <span style="width: 7px; height: 7px; border-radius: 50%; background: #c4b800; flex-shrink: 0;"></span>
+                                            Pending
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span style="display: inline-flex; align-items: center; gap: 6px; background: #fde8f1; color: #993556; font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 999px;">
+                                            <span style="width: 7px; height: 7px; border-radius: 50%; background: #c85a88; flex-shrink: 0;"></span>
+                                            Unclaimed
+                                        </span>
+                                    }
+                                </td>
 
                     </tr>
                 }
@@ -552,6 +602,52 @@
                             color: '#f1ece5'
                         }
                     }
+                }
+            }
+        });
+
+               const donutCtx = document.getElementById('statsDonut');
+        new Chart(donutCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Claimed', 'Unclaimed'],
+                datasets: [{
+                    data: [@ViewBag.ClaimedItems, @ViewBag.UnclaimedItems],
+                    backgroundColor: ['#4a7a1e', '#c85a88'],
+                    borderColor: ['#4a7a1e', '#c85a88'],
+                    borderWidth: 0,
+                    hoverOffset: 8,
+                    borderRadius: 6,
+                    spacing: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '68%',
+                rotation: -90,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: '#1e1b2e',
+                        padding: 10,
+                        cornerRadius: 10,
+                        titleFont: { family: 'Spline Sans Mono', size: 11 },
+                        bodyFont: { family: 'Spline Sans Mono', size: 13, weight: '700' },
+                        callbacks: {
+                            label: function(context) {
+                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const pct = total > 0 ? Math.round((context.parsed / total) * 100) : 0;
+                                return ` ${context.parsed} items — ${pct}%`;
+                            }
+                        }
+                    }
+                },
+                animation: {
+                    animateRotate: true,
+                    animateScale: true,
+                    duration: 900,
+                    easing: 'easeInOutQuart'
                 }
             }
         });
